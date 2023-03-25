@@ -18,6 +18,8 @@ dependencies:
   json_annotation: ^4.7.0
   material_design_icons_flutter: ^6.0.7096
   flutter_native_splash: ^2.0.4
+  path_provider: ^2.0.14
+  video_thumbnail: ^0.5.3
   
 
 dev_dependencies:
