@@ -1,39 +1,59 @@
 import 'dart:async';
 import 'package:correct_speech/features/core/export.dart';
-import 'package:correct_speech/features/folder_distribution/domain/repository/video_repository.dart';
+import 'package:correct_speech/features/folder_distribution/export.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class FolderDistributionBloc extends Bloc<FolderDistributionEvent, FolderDistributionState> {
-  final VideoRepository _videoRepository;
+  final SourceVideoInteractor _sourceVideoInteractor;
+  final StudentVideoInteractor _studentVideoInteractor;
 
   FolderDistributionBloc({
-    required VideoRepository videoRepository,
-  })  : _videoRepository = videoRepository,
-        super(const FolderDistributionStateInit()) {
-    on(_onVideoPressedEvent);
-    on(_onInitEvent);
+    required SourceVideoInteractor sourceVideoInteractor,
+    required StudentVideoInteractor studentVideoInteractor,
+    required StudentRepository studentRepository,
+  })  : _sourceVideoInteractor = sourceVideoInteractor,
+        _studentVideoInteractor = studentVideoInteractor,
+        super(FolderDistributionStateMain()) {
+    on(_onEventPickVideos);
+    on(_onEventMoveVideos);
+    on(_onEventStudentSelected);
   }
 
-  FutureOr<void> _onVideoPressedEvent(
-    FolderDistributionEventVideoPressed event,
+  FutureOr<void> _onEventPickVideos(
+    FolderDistributionEventPickVideos event,
+    Emitter<FolderDistributionState> emit,
+  ) async {
+    final state = this.state as FolderDistributionStateMain;
+
+    final pickedVideos = await _sourceVideoInteractor.pickVideos();
+    emit(state..videosInfo = pickedVideos);
+  }
+
+  FutureOr<void> _onEventMoveVideos(
+    FolderDistributionEventMoveVideos event,
+    Emitter<FolderDistributionState> emit,
+  ) async {
+    final state = this.state as FolderDistributionStateMain;
+    final studentOnVideo = state.studentOnVideo;
+
+    if (studentOnVideo == null) {
+      emit(FolderDistributionStateStudentNotSelected());
+      emit(state);
+      return;
+    }
+
+    await _studentVideoInteractor.moveToStudentFolder(studentOnVideo, state.videosInfo);
+
+    emit(state..videosInfo = []);
+  }
+
+  FutureOr<void> _onEventStudentSelected(
+    FolderDistributionEventStudentSelected event,
     Emitter<FolderDistributionState> emit,
   ) {
     final state = this.state as FolderDistributionStateMain;
-    state.selectedVideos[event.selectedVideoIndex] = !state.selectedVideos[event.selectedVideoIndex];
+    state.studentOnVideo = event.selectedStudent;
     emit(state);
-  }
-
-  FutureOr<void> _onInitEvent(
-    FolderDistributionEvent event,
-    Emitter<FolderDistributionState> emit,
-  ) async {
-    final videosInfo = await _videoRepository.getVideosInfo();
-
-    emit(FolderDistributionStateMain(
-      videos: videosInfo,
-      videoSourcePath: _videoRepository.videoSourcePath,
-      selectedVideos: List.filled(videosInfo.length, false),
-    ));
   }
 }
 
@@ -41,11 +61,15 @@ abstract class FolderDistributionEvent {
   const FolderDistributionEvent();
 }
 
-class FolderDistributionEventVideoPressed extends FolderDistributionEvent {
-  final int selectedVideoIndex;
+class FolderDistributionEventStudentSelected extends FolderDistributionEvent {
+  final Student? selectedStudent;
 
-  const FolderDistributionEventVideoPressed({required this.selectedVideoIndex});
+  FolderDistributionEventStudentSelected(this.selectedStudent);
 }
+
+class FolderDistributionEventPickVideos extends FolderDistributionEvent {}
+
+class FolderDistributionEventMoveVideos extends FolderDistributionEvent {}
 
 abstract class FolderDistributionState {
   const FolderDistributionState();
@@ -56,13 +80,13 @@ class FolderDistributionStateInit extends FolderDistributionState {
 }
 
 class FolderDistributionStateMain extends FolderDistributionState {
-  final List<VideoInfo> videos;
-  final List<bool> selectedVideos;
-  String videoSourcePath;
+  List<VideoInfo> videosInfo;
+  Student? studentOnVideo;
 
   FolderDistributionStateMain({
-    required this.videos,
-    required this.selectedVideos,
-    required this.videoSourcePath,
+    this.videosInfo = const [],
+    this.studentOnVideo,
   });
 }
+
+class FolderDistributionStateStudentNotSelected extends FolderDistributionState {}

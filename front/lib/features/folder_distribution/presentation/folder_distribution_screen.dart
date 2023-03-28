@@ -1,32 +1,62 @@
+import 'package:correct_speech/features/core/export.dart';
 import 'package:correct_speech/features/folder_distribution/export.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:injector/injector.dart' hide Builder;
 
-class FolderDistributionScreen extends StatelessWidget {
+class FolderDistributionScreen extends StatefulWidget {
   const FolderDistributionScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (_) => 
-      (),
-      child: _buildState(),
-    );
+  State<FolderDistributionScreen> createState() => _FolderDistributionScreenState();
+}
+
+class _FolderDistributionScreenState extends State<FolderDistributionScreen> {
+  late final FolderDistributionBloc _bloc;
+
+  @override
+  void initState() {
+    super.initState();
+    _bloc = Injector.appInstance.get<FolderDistributionBloc>();
   }
 
-  Widget _buildState() {
-    return BlocBuilder<FolderDistributionBloc, FolderDistributionState>(
-      builder: (context, state) {
-        if (state is FolderDistributionStateInit) {
-          return _buildInitState();
-        } else if (state is FolderDistributionStateMain) {
-          return _buildMainState(state);
-        } else {
-          throw Exception();
-          //TODO do exception system
+  @override
+  void dispose() async {
+    await _bloc.close();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocConsumer(
+      bloc: _bloc,
+      builder: _buildState,
+      listener: (context, state) async {
+        if (state is FolderDistributionStateStudentNotSelected) {
+          await _showDialogNotSelectedStudent(context);
         }
       },
     );
+  }
+
+  Future<T?> _showDialogNotSelectedStudent<T>(BuildContext context) {
+    return showDialog<T>(
+      context: context,
+      builder: (_) => const SimpleDialog(
+        title: Text('Для перемещения видео необходимо выбрать ученика'),
+      ),
+    );
+  }
+
+  Widget _buildState(BuildContext context, FolderDistributionState state) {
+    if (state is FolderDistributionStateInit) {
+      return _buildInitState();
+    } else if (state is FolderDistributionStateMain) {
+      return _buildMainState(state);
+    } else {
+      throw Exception();
+      //TODO do exception system
+    }
   }
 
   Widget _buildInitState() {
@@ -36,43 +66,38 @@ class FolderDistributionScreen extends StatelessWidget {
   Widget _buildMainState(FolderDistributionStateMain state) {
     return Column(
       children: [
-        _buildVideoSourceCard(state),
-        _buildVideoGrid(state),
+        _buildSelectVideoButton(),
+        _buildSelectedVideo(state.videosInfo),
+        _buildStudentOnVideoCard(state.studentOnVideo),
       ],
     );
   }
 
-  Widget _buildVideoGrid(FolderDistributionStateMain state) {
-    return Builder(
-      builder: (context) {
-        return GridView.count(
-          crossAxisCount: state.selectedVideos.length,
-          children: List.generate(
-            state.selectedVideos.length,
-            (i) => VideoTile(
-              video: state.videos[i],
-              isSelected: state.selectedVideos[i],
-              onPressed: () => context
-                  .read<FolderDistributionBloc>()
-                  .add(FolderDistributionEventVideoPressed(selectedVideoIndex: i)),
-            ),
-          ),
-        );
-      },
-    );
-  }
-
-  Widget _buildVideoSourceCard(FolderDistributionStateMain state) {
-    return OutlinedButton(
-      onPressed: _chooseNewSourceFolder,
-      child: Column(
-        children: [
-          const Text('Исходная папка'),
-          Text(state.videoSourcePath),
-        ],
+  Widget _buildSelectedVideo(List<VideoInfo> videosInfo) {
+    return ListView.builder(
+      itemCount: videosInfo.length,
+      itemBuilder: (_, i) => VideoTile(
+        video: videosInfo[i],
       ),
     );
   }
 
-  void _chooseNewSourceFolder() {}
+  Widget _buildSelectVideoButton() {
+    return OutlinedButton(
+      onPressed: () => _bloc.add(FolderDistributionEventPickVideos()),
+      child: const Text('Выбрать видео'),
+    );
+  }
+
+  Widget _buildStudentOnVideoCard(Student? studentOnVideo) {
+    return TextButton(
+      onPressed: () async {
+        final selectedStudent = await showStudentSelectionBottomsheet(context);
+        _bloc.add(FolderDistributionEventStudentSelected(selectedStudent));
+      },
+      child: Text((studentOnVideo == null)
+          ? 'Выберите ученика, в чью папку будут перенесены видео'
+          : 'Текущий студент: ${studentOnVideo.fullName}'),
+    );
+  }
 }
