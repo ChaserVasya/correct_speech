@@ -1,4 +1,9 @@
-class Student {
+import 'package:equatable/equatable.dart';
+import 'package:floor/floor.dart';
+
+@entity
+class Student extends Equatable {
+  @primaryKey
   final int id;
 
   final String name;
@@ -14,14 +19,10 @@ class Student {
   });
 
   @override
-  bool operator ==(Object other) {
-    if (other is! Student) {
-      return false;
-    }
-
-    return id == other.id;
-  }
-
-  @override
-  int get hashCode => Object.hashAll([id]);
+  List<Object?> get props => [
+        id,
+        name,
+        surname,
+        patronymic,
+      ];
 }

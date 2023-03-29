@@ -5,14 +5,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class FolderDistributionBloc extends Bloc<FolderDistributionEvent, FolderDistributionState> {
   final SourceVideoInteractor _sourceVideoInteractor;
-  final StudentVideoInteractor _studentVideoInteractor;
+  final AppFolder _appFolder;
 
   FolderDistributionBloc({
     required SourceVideoInteractor sourceVideoInteractor,
-    required StudentVideoInteractor studentVideoInteractor,
-    required StudentRepository studentRepository,
+    required AppFolder appFolder,
   })  : _sourceVideoInteractor = sourceVideoInteractor,
-        _studentVideoInteractor = studentVideoInteractor,
+        _appFolder = appFolder,
         super(FolderDistributionStateMain()) {
     on(_onEventPickVideos);
     on(_onEventMoveVideos);
@@ -42,7 +41,7 @@ class FolderDistributionBloc extends Bloc<FolderDistributionEvent, FolderDistrib
       return;
     }
 
-    await _studentVideoInteractor.moveToStudentFolder(studentOnVideo, state.videosInfo);
+    await _appFolder.folderOf(studentOnVideo).importVideos(state.videosInfo);
 
     emit(state..videosInfo = []);
   }

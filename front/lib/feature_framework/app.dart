@@ -1,12 +1,9 @@
-import 'package:correct_speech/framework/presentation/main_screen.dart';
+import 'package:correct_speech/feature_framework/presentation/main_screen.dart';
 import 'package:flutter/material.dart';
 
 class App extends StatelessWidget {
-  final Widget body;
-
   const App({
     super.key,
-    required this.body,
   });
 
   @override

@@ -1,6 +1,6 @@
 import 'dart:typed_data';
 
-import 'package:correct_speech/features/core/export.dart';
+import 'package:correct_speech/features/core/video/export.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:video_thumbnail/video_thumbnail.dart';
 

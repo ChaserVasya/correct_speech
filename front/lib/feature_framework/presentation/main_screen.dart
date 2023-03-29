@@ -1,4 +1,4 @@
-import 'package:correct_speech/framework/presentation/widgets/servise_tile.dart';
+import 'package:correct_speech/feature_framework/presentation/widgets/servise_tile.dart';
 import 'package:flutter/material.dart';
 
 class MainScreen extends StatelessWidget {

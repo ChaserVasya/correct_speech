@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:correct_speech/features/core/export.dart';
+import 'package:correct_speech/features/core/student/export.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class StudentSelectionBloc extends Bloc<StudentSelectionEvent, StudentSelectionState> {

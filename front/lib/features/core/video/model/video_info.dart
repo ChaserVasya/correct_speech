@@ -1,8 +1,9 @@
 import 'dart:typed_data';
 
+import 'package:equatable/equatable.dart';
 import 'package:path/path.dart';
 
-class VideoInfo {
+class VideoInfo extends Equatable {
   final String path;
   final Uint8List thumbnail;
   String get name => basenameWithoutExtension(path);
@@ -13,14 +14,5 @@ class VideoInfo {
   });
 
   @override
-  bool operator ==(Object other) {
-    if (other is! VideoInfo) {
-      return false;
-    }
-
-    return path == other.path;
-  }
-
-  @override
-  int get hashCode => Object.hashAll([path]);
+  List<Object?> get props => [path];
 }

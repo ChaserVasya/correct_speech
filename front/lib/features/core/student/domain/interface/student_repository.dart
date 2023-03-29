@@ -1,6 +1,6 @@
-import 'package:correct_speech/features/core/export.dart';
+import 'package:correct_speech/features/core/student/export.dart';
 
-class StudentRepository {
+abstract class StudentRepository {
   Future<List<Student>> getAll();
 
   Future<void> add(Student student);
