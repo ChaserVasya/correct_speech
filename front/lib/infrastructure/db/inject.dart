@@ -6,7 +6,7 @@ Future<void> injectDb() async {
   final db = await $FloorLocalDatabase.databaseBuilder(DBNames.localDatabaseName).build();
 
   final injector = Injector.appInstance;
-
-  injector.registerSingleton(() => db);
+  injector.registerSingleton(() => db.database);
+  injector.registerSingleton(() => db.personDao);
   injector.registerSingleton(() => db.personDao);
 }

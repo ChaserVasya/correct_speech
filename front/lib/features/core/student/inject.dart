@@ -3,12 +3,8 @@ import 'package:injector/injector.dart';
 
 void injectStudent() {
   final injector = Injector.appInstance;
+  final getImpl = injector.get;
 
-  injector.registerDependency<StudentRepository>(() => StudentRepositoryDB(
-        injector.get(),
-      ));
-
-  injector.registerDependency(() => StudentSelectionBloc(
-        injector.get(),
-      ));
+  injector.registerDependency<StudentRepository>(() => StudentRepositoryDB(getImpl(), getImpl(), getImpl(), getImpl()));
+  injector.registerDependency(() => StudentSelectionBloc(getImpl()));
 }

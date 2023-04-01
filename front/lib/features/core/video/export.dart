@@ -1,1 +1,1 @@
-export 'model/video_info.dart';
+export 'domain/model/video_info.dart';

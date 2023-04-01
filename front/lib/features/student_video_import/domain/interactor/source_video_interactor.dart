@@ -1,5 +1,5 @@
 import 'package:correct_speech/features/core/export.dart';
-import 'package:correct_speech/features/folder_distribution/export.dart';
+import 'package:correct_speech/features/student_video_import/export.dart';
 import 'package:file_picker/file_picker.dart';
 
 class SourceVideoInteractor {
@@ -16,7 +16,7 @@ class SourceVideoInteractor {
     final result = await _filePicker.pickFiles(
       allowMultiple: true,
       type: FileType.video,
-      lockParentWindow: true,
+      lockPersonWindow: true,
     );
 
     return await _videoInfoMapper.fromFilePickerResult(result!);

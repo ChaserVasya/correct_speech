@@ -4,3 +4,10 @@ analyzer:
   exclude:
     - lib/**/*.g.dart
     - lib/**/*database.dart
+
+linter:
+  rules:
+    curly_braces_in_flow_control_structures: true
+    type_annotate_public_apis: true
+    directives_ordering: true
+    library_prefixes: true

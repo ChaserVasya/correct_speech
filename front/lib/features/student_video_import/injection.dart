@@ -1,9 +1,9 @@
 import 'package:correct_speech/features/core/app_folder.dart';
-import 'package:correct_speech/features/folder_distribution/export.dart';
+import 'package:correct_speech/features/student_video_import/export.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:injector/injector.dart';
 
-void injectFolderDistribution() {
+void injectStudentVideoImport() {
   final injector = Injector.appInstance;
 
   injector.registerDependency(VideoInfoMapper.new);
@@ -16,7 +16,7 @@ void injectFolderDistribution() {
   );
 
   injector.registerDependency(
-    () => FolderDistributionBloc(
+    () => StudentVideoImportBloc(
       appFolder: AppFolder(),
       sourceVideoInteractor: injector.get(),
     ),

@@ -25,7 +25,7 @@ class VideoManagerIOS implements VideoManager {
   }
 
   Future<AssetPathEntity> _getAlbum(String name, AssetPathEntity appDir) async {
-    final album = await PhotoManager.editor.darwin.createAlbum(name, parent: appDir);
+    final album = await PhotoManager.editor.darwin.createAlbum(name, person: appDir);
     return album!;
   }
 

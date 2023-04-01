@@ -1,23 +1,23 @@
 import 'package:correct_speech/features/core/export.dart';
-import 'package:correct_speech/features/folder_distribution/export.dart';
+import 'package:correct_speech/features/student_video_import/export.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injector/injector.dart' hide Builder;
 
-class FolderDistributionScreen extends StatefulWidget {
-  const FolderDistributionScreen({super.key});
+class StudentVideoImportScreen extends StatefulWidget {
+  const StudentVideoImportScreen({super.key});
 
   @override
-  State<FolderDistributionScreen> createState() => _FolderDistributionScreenState();
+  State<StudentVideoImportScreen> createState() => _StudentVideoImportScreenState();
 }
 
-class _FolderDistributionScreenState extends State<FolderDistributionScreen> {
-  late final FolderDistributionBloc _bloc;
+class _StudentVideoImportScreenState extends State<StudentVideoImportScreen> {
+  late final StudentVideoImportBloc _bloc;
 
   @override
   void initState() {
     super.initState();
-    _bloc = Injector.appInstance.get<FolderDistributionBloc>();
+    _bloc = Injector.appInstance.get<StudentVideoImportBloc>();
   }
 
   @override
@@ -32,7 +32,7 @@ class _FolderDistributionScreenState extends State<FolderDistributionScreen> {
       bloc: _bloc,
       builder: _buildState,
       listener: (context, state) async {
-        if (state is FolderDistributionStateStudentNotSelected) {
+        if (state is StudentVideoImportStateStudentNotSelected) {
           await _showDialogNotSelectedStudent(context);
         }
       },
@@ -48,10 +48,10 @@ class _FolderDistributionScreenState extends State<FolderDistributionScreen> {
     );
   }
 
-  Widget _buildState(BuildContext context, FolderDistributionState state) {
-    if (state is FolderDistributionStateInit) {
+  Widget _buildState(BuildContext context, StudentVideoImportState state) {
+    if (state is StudentVideoImportStateInit) {
       return _buildInitState();
-    } else if (state is FolderDistributionStateMain) {
+    } else if (state is StudentVideoImportStateMain) {
       return _buildMainState(state);
     } else {
       throw Exception();
@@ -63,7 +63,7 @@ class _FolderDistributionScreenState extends State<FolderDistributionScreen> {
     return const CircularProgressIndicator();
   }
 
-  Widget _buildMainState(FolderDistributionStateMain state) {
+  Widget _buildMainState(StudentVideoImportStateMain state) {
     return Column(
       children: [
         _buildSelectVideoButton(),
@@ -84,7 +84,7 @@ class _FolderDistributionScreenState extends State<FolderDistributionScreen> {
 
   Widget _buildSelectVideoButton() {
     return OutlinedButton(
-      onPressed: () => _bloc.add(FolderDistributionEventPickVideos()),
+      onPressed: () => _bloc.add(StudentVideoImportEventPickVideos()),
       child: const Text('Выбрать видео'),
     );
   }
@@ -93,7 +93,7 @@ class _FolderDistributionScreenState extends State<FolderDistributionScreen> {
     return TextButton(
       onPressed: () async {
         final selectedStudent = await showStudentSelectionBottomsheet(context);
-        _bloc.add(FolderDistributionEventStudentSelected(selectedStudent));
+        _bloc.add(StudentVideoImportEventStudentSelected(selectedStudent));
       },
       child: Text((studentOnVideo == null)
           ? 'Выберите ученика, в чью папку будут перенесены видео'

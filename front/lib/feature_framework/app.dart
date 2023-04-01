@@ -1,4 +1,4 @@
-import 'package:correct_speech/feature_framework/presentation/main_screen.dart';
+import 'package:correct_speech/feature_framework/presentation/features_screen.dart';
 import 'package:flutter/material.dart';
 
 class App extends StatelessWidget {
@@ -8,10 +8,8 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      routes: {
-        '/': (_) => const MainScreen(),
-      },
+    return const MaterialApp(
+      home: FeaturesScreen(),
     );
   }
 }

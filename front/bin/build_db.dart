@@ -1,4 +1,5 @@
-import 'dart:developer';
+// ignore_for_file: avoid_print
+
 import 'dart:io';
 
 void main(List<String> args) async {
@@ -9,5 +10,6 @@ void main(List<String> args) async {
     [command],
   );
 
-  log(result.stdout.toString());
+  print('stdout:');
+  print(result.stdout.toString());
 }

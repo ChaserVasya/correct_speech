@@ -1,17 +1,20 @@
-import 'package:correct_speech/features/core/student/export.dart';
+import 'package:correct_speech/features/core/export.dart';
 import 'package:floor/floor.dart';
 
 @dao
 abstract class StudentDao {
-  @Query('SELECT * FROM Student')
-  Future<List<Student>> getAllStudents();
+  @Query('SELECT * FROM StudentTable')
+  Future<List<StudentEntry>> getAllStudents();
+
+  @Query('SELECT * FROM StudentTable WHERE id = :id')
+  Future<StudentEntry?> getStudent(int id);
 
   @insert
-  Future<void> addStudent(Student student);
+  Future<void> insertStudent(StudentEntry student);
 
   @update
-  Future<void> updateStudent(Student student);
+  Future<void> updateStudent(StudentEntry student);
 
   @delete
-  Future<void> deleteStudent(Student student);
+  Future<void> deleteStudent(StudentEntry student);
 }
