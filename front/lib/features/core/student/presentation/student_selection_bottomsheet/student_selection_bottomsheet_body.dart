@@ -1,10 +1,11 @@
-import 'package:correct_speech/features/core/student/export.dart';
+import 'package:correct_speech/features/core/person/domain/model/registered_person.dart';
+import 'package:correct_speech/features/core/student/presentation/student_selection_bottomsheet/student_selection_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injector/injector.dart';
 
-Future<Student?> showStudentSelectionBottomsheet(BuildContext context) {
-  return showModalBottomSheet<Student>(
+Future<RegisteredPerson?> showStudentSelectionBottomsheet(BuildContext context) {
+  return showModalBottomSheet<RegisteredPerson>(
     context: context,
     builder: (_) => const StudentSelectionBottomsheetBody(),
   );

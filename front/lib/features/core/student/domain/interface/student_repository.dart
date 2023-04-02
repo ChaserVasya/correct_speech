@@ -1,11 +1,9 @@
-import 'package:correct_speech/features/core/student/export.dart';
+import 'package:correct_speech/features/core/person/domain/model/registered_person.dart';
 
 abstract class StudentRepository {
-  Future<List<Student>> getAll();
+  Future<List<RegisteredPerson>> getAll();
 
-  Future<void> add(Student student);
+  Future<void> add(RegisteredPerson student);
 
-  Future<void> update(Student student);
-
-  Future<void> delete(Student student);
+  Future<void> delete(RegisteredPerson student);
 }

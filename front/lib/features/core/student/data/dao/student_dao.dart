@@ -1,4 +1,4 @@
-import 'package:correct_speech/features/core/export.dart';
+import 'package:correct_speech/features/core/student/data/entry/student_entry.dart';
 import 'package:floor/floor.dart';
 
 @dao

@@ -1,6 +1,7 @@
 import 'dart:async';
 
-import 'package:correct_speech/features/core/student/export.dart';
+import 'package:correct_speech/features/core/person/domain/model/registered_person.dart';
+import 'package:correct_speech/features/core/student/domain/interface/student_repository.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class StudentSelectionBloc extends Bloc<StudentSelectionEvent, StudentSelectionState> {
@@ -46,13 +47,13 @@ abstract class StudentSelectionState {}
 class StudentSelectionStateInit extends StudentSelectionState {}
 
 class StudentSelectionStateMain extends StudentSelectionState {
-  final List<Student> students;
+  final List<RegisteredPerson> students;
 
   StudentSelectionStateMain({required this.students});
 }
 
 class StudentSelectionStateStudentSelected extends StudentSelectionState {
-  final Student selectedStudent;
+  final RegisteredPerson selectedStudent;
 
   StudentSelectionStateStudentSelected(this.selectedStudent);
 }
