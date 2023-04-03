@@ -22,9 +22,10 @@ dependencies:
   video_thumbnail: ^0.5.3
   file_picker: ^5.2.6
   path: ^1.8.1
-  shared_preferences: ^2.0.20
+  shared_preferences: ^2.1.0
   permission_handler: ^10.2.0
   photo_manager: ^2.6.0
+  meta: ^1.8.0
   # equatable: ^2.0.5
     
 

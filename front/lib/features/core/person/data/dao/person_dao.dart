@@ -9,6 +9,12 @@ abstract class PersonDao {
   @Query('SELECT * FROM Persons WHERE id IN (:ids)')
   Future<List<PersonEntry>> getPersonsByIds(Iterable<int> ids);
 
+  @Query('SELECT * FROM Persons WHERE id = :id')
+  Future<PersonEntry?> getPersonById(int id);
+
+  @update
+  Future<void> updatePerson(PersonEntry person);
+
   @insert
   Future<int> insertPerson(PersonEntry person);
 

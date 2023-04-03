@@ -24,7 +24,7 @@ class StudentRepositoryDB implements StudentRepository {
     final studentsTable = await _studentDao.getAllStudents();
     final studentsIds = studentsTable.map((entry) => entry.personId);
     final personsTable = await _personDao.getPersonsByIds(studentsIds);
-    return personsTable.map(_personMapper.fromEntry).toList();
+    return personsTable.map(_personMapper.toDomain).toList();
   }
 
   @override
@@ -37,5 +37,19 @@ class StudentRepositoryDB implements StudentRepository {
   Future<void> delete(RegisteredPerson student) async {
     final entry = _personMapper.toEntry(student);
     await _personDao.deletePerson(entry);
+  }
+
+  @override
+  Future<RegisteredPerson?> getById(int id) async {
+    final studentEntry = await _studentDao.getStudent(id);
+    if (studentEntry == null) return null;
+    final personEntry = await _personDao.getPersonById(studentEntry.personId);
+    return _personMapper.toDomain(personEntry!);
+  }
+
+  @override
+  Future<void> update(RegisteredPerson student) async {
+    final entry = _personMapper.toEntry(student);
+    await _personDao.updatePerson(entry);
   }
 }

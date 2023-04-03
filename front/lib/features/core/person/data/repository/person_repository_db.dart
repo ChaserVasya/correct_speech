@@ -20,21 +20,21 @@ class PersonRepositoryDb implements PersonRepository {
   @override
   Future<List<RegisteredPerson>> getAllPersons() async {
     final personTable = await _personDao.getAllPersons();
-    return personTable.map(_personMapper.fromEntry).toList();
+    return personTable.map(_personMapper.toDomain).toList();
   }
 
   @override
-  Future<RegisteredPerson> registerPerson({
-    required Person person,
-    required Iterable<Registered> relatedPersons,
-  }) async {
+  Future<RegisteredPerson> registerPerson(Person person) async {
     final entry = _personMapper.toEntry(person);
     final id = await _personDao.insertPerson(entry);
     final registeredPerson = person.addId(id);
 
-    final junctionTable = _personMapper.toJunctionEntries(registeredPerson, relatedPersons);
-    await _relatedPersonsDao.insertRelatedPersons(junctionTable);
-
     return registeredPerson;
+  }
+
+  @override
+  Future<void> linkPersons(Registered person1, Registered person2) async {
+    final junctionTable = _personMapper.toJunctionEntries(person1, person2);
+    await _relatedPersonsDao.insertRelatedPersons(junctionTable);
   }
 }

@@ -9,12 +9,15 @@ class PersonEntry {
   final String surname;
   final String? phone;
 
+  final int sexCode;
+
   String get fullName => '$name $surname';
 
   const PersonEntry({
     required this.id,
     required this.name,
     required this.surname,
+    required this.sexCode,
     this.phone,
   });
 }

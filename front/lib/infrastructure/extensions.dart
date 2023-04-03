@@ -21,3 +21,9 @@ extension ListExtensions<E> on List<E> {
     }
   }
 }
+
+extension MapExtension<A, B> on Map<A, B> {
+  Map<B, A> invert() {
+    return map((a, b) => MapEntry(b, a));
+  }
+}

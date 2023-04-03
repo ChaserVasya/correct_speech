@@ -10,5 +10,6 @@ class RegisteredPerson extends Person implements Registered {
     required super.name,
     required super.surname,
     required super.phone,
+    required super.sex,
   });
 }
