@@ -33,7 +33,7 @@ class PersonEditingCubit extends Cubit<BlocState?> {
   }
 
   Future<void> _refreshState() async {
-    final person = await _personRepository.getById(state!.person);
+    final person = await _personRepository.getById(state!.person.id);
     emit(state!.copyWith(BlocStateMain.new, person: person!));
   }
 }

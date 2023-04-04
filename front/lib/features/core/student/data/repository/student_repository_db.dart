@@ -1,5 +1,6 @@
 import 'package:correct_speech/features/core/person/data/dao/person_dao.dart';
 import 'package:correct_speech/features/core/person/data/mapper/person_mapper.dart';
+import 'package:correct_speech/features/core/person/domain/model/registered.dart';
 import 'package:correct_speech/features/core/person/domain/model/registered_person.dart';
 import 'package:correct_speech/features/core/student/data/dao/student_dao.dart';
 import 'package:correct_speech/features/core/student/data/mapper/student_mapper.dart';
@@ -22,13 +23,13 @@ class StudentRepositoryDB implements StudentRepository {
   @override
   Future<Iterable<RegisteredPerson>> getAll() async {
     final studentsTable = await _studentDao.getAllStudents();
-    final studentsIds = studentsTable.map((entry) => entry.personId);
+    final studentsIds = studentsTable.map((entry) => entry.personId).toList();
     final personsTable = await _personDao.getPersonsByIds(studentsIds);
     return personsTable.map(_personMapper.toDomain);
   }
 
   @override
-  Future<void> add(RegisteredPerson student) async {
+  Future<void> add(Registered student) async {
     final entry = _studentMapper.toEntry(student);
     await _studentDao.insertStudent(entry);
   }

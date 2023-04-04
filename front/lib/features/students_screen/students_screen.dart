@@ -1,19 +1,19 @@
 import 'package:correct_speech/features/core/person/domain/model/registered_person.dart';
 import 'package:correct_speech/features/core/person/presentation/widget/person_tile/person_tile.dart';
-import 'package:correct_speech/features/person_editing/presentation/students_editing/students_editing_bloc.dart';
+import 'package:correct_speech/features/students_screen/students_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injector/injector.dart';
 
 //TODO should i stream database updating student or i can just update screen on didUpdate and etc.?
-class StudentsEditingScreen extends StatefulWidget {
-  const StudentsEditingScreen({super.key});
+class StudentsScreen extends StatefulWidget {
+  const StudentsScreen({super.key});
 
   @override
-  State<StudentsEditingScreen> createState() => _StudentsEditingScreenState();
+  State<StudentsScreen> createState() => _StudentsScreenState();
 }
 
-class _StudentsEditingScreenState extends State<StudentsEditingScreen> {
+class _StudentsScreenState extends State<StudentsScreen> {
   late final StudentsCubit _cubit;
 
   @override
@@ -27,11 +27,11 @@ class _StudentsEditingScreenState extends State<StudentsEditingScreen> {
   Widget build(BuildContext context) {
     return BlocBuilder(
       bloc: _cubit,
-      builder: _buildContent,
+      builder: _buildState,
     );
   }
 
-  Widget _buildContent(BuildContext context, List<RegisteredPerson>? students) {
+  Widget _buildState(BuildContext context, List<RegisteredPerson>? students) {
     if (students == null) {
       return _buildLoading();
     }

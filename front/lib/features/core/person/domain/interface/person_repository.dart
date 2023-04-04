@@ -5,7 +5,7 @@ import 'package:correct_speech/features/core/person/domain/model/registered_pers
 abstract class PersonRepository {
   Future<Set<RegisteredPerson>> getAll();
 
-  Future<RegisteredPerson?> getById(Registered person);
+  Future<RegisteredPerson?> getById(int id);
 
   Future<RegisteredPerson> register(Person person);
 

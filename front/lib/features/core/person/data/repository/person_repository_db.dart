@@ -18,9 +18,9 @@ class PersonRepositoryDb implements PersonRepository {
   );
 
   @override
-  Future<Iterable<RegisteredPerson>> getAll() async {
+  Future<Set<RegisteredPerson>> getAll() async {
     final personTable = await _personDao.getAllPersons();
-    return personTable.map(_personMapper.toDomain);
+    return personTable.map(_personMapper.toDomain).toSet();
   }
 
   @override
@@ -39,12 +39,12 @@ class PersonRepositoryDb implements PersonRepository {
   }
 
   @override
-  Future<Iterable<RegisteredPerson>> getRelatedToPerson(Registered person) async {
+  Future<Set<RegisteredPerson>> getRelatedToPerson(Registered person) async {
     final relatedPersonsTable = await _relatedPersonsDao.getRelatedToPerson(person.id);
-    if (relatedPersonsTable.isEmpty) return [];
-    final relatedPersonIds = relatedPersonsTable.map((entry) => entry.id2);
+    if (relatedPersonsTable.isEmpty) return {};
+    final relatedPersonIds = relatedPersonsTable.map((entry) => entry.id2).toList();
     final personTable = await _personDao.getPersonsByIds(relatedPersonIds);
-    return personTable.map(_personMapper.toDomain);
+    return personTable.map(_personMapper.toDomain).toSet();
   }
 
   @override
@@ -63,5 +63,12 @@ class PersonRepositoryDb implements PersonRepository {
   Future<void> update(RegisteredPerson person) async {
     final personEntry = _personMapper.toEntry(person);
     await _personDao.updatePerson(personEntry);
+  }
+
+  @override
+  Future<RegisteredPerson?> getById(int id) async {
+    final entry = await _personDao.getPersonById(id);
+    if (entry == null) return null;
+    return _personMapper.toDomain(entry);
   }
 }

@@ -1,4 +1,4 @@
-import 'package:correct_speech/features/core/person/domain/model/person.dart';
+import 'package:correct_speech/features/core/person/domain/model/registered.dart';
 import 'package:correct_speech/features/core/person/domain/model/registered_person.dart';
 
 abstract class StudentRepository {
@@ -6,7 +6,7 @@ abstract class StudentRepository {
 
   Future<RegisteredPerson?> getById(int id);
 
-  Future<void> add(Person student);
+  Future<void> add(Registered student);
 
   Future<void> delete(RegisteredPerson student);
 }

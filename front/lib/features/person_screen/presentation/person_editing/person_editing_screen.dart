@@ -1,8 +1,8 @@
 import 'package:correct_speech/features/core/person/domain/model/registered_person.dart';
 import 'package:correct_speech/features/core/person/presentation/widget/person_selection_bottomsheet.dart';
 import 'package:correct_speech/features/core/person/presentation/widget/sex_radio.dart';
-import 'package:correct_speech/features/person_editing/presentation/person_editing/person_editing_cubit.dart/person_editing_cubit.dart';
-import 'package:correct_speech/features/person_editing/presentation/related_persons/related_persons_list.dart';
+import 'package:correct_speech/features/person_screen/presentation/person_editing/person_editing_cubit.dart/person_editing_cubit.dart';
+import 'package:correct_speech/features/person_screen/presentation/related_persons/related_persons_list.dart';
 import 'package:correct_speech/infrastructure/bloc/bloc_narrowed_consumer.dart';
 import 'package:correct_speech/infrastructure/helper/nullable.dart';
 import 'package:correct_speech/uikit/field/name_form_field.dart';
