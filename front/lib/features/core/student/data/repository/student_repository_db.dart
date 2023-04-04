@@ -1,6 +1,5 @@
-import 'package:correct_speech/features/core/person/data/dao/person_dao.dart';
-import 'package:correct_speech/features/core/person/data/mapper/person_mapper.dart';
-import 'package:correct_speech/features/core/person/domain/model/registered.dart';
+import 'package:correct_speech/features/core/person/domain/interface/person_repository.dart';
+import 'package:correct_speech/features/core/person/domain/model/person.dart';
 import 'package:correct_speech/features/core/person/domain/model/registered_person.dart';
 import 'package:correct_speech/features/core/student/data/dao/student_dao.dart';
 import 'package:correct_speech/features/core/student/data/mapper/student_mapper.dart';
@@ -8,49 +7,45 @@ import 'package:correct_speech/features/core/student/domain/interface/student_re
 
 class StudentRepositoryDB implements StudentRepository {
   final StudentDao _studentDao;
-  final PersonDao _personDao;
-  final PersonMapper _personMapper;
   final StudentMapper _studentMapper;
+  final PersonRepository _personRepository;
 
   const StudentRepositoryDB(
     this._studentDao,
-    this._personDao,
-    this._personMapper,
     this._studentMapper,
+    this._personRepository,
   );
 
   //TODO Change to JOIN query
   @override
-  Future<Iterable<RegisteredPerson>> getAll() async {
+  Future<Set<RegisteredPerson>> getAll() async {
     final studentsTable = await _studentDao.getAllStudents();
     final studentsIds = studentsTable.map((entry) => entry.personId).toList();
-    final personsTable = await _personDao.getPersonsByIds(studentsIds);
-    return personsTable.map(_personMapper.toDomain);
+    return await _personRepository.getByIds(studentsIds);
   }
 
   @override
-  Future<void> add(Registered student) async {
-    final entry = _studentMapper.toEntry(student);
+  Future<RegisteredPerson> add(Person student) async {
+    final registeredStudent = await _personRepository.register(student);
+    final entry = _studentMapper.toEntry(registeredStudent);
     await _studentDao.insertStudent(entry);
+    return registeredStudent;
   }
 
   @override
   Future<void> delete(RegisteredPerson student) async {
-    final entry = _personMapper.toEntry(student);
-    await _personDao.deletePerson(entry);
+    _personRepository.delete(student);
   }
 
   @override
   Future<RegisteredPerson?> getById(int id) async {
     final studentEntry = await _studentDao.getStudent(id);
     if (studentEntry == null) return null;
-    final personEntry = await _personDao.getPersonById(studentEntry.personId);
-    return _personMapper.toDomain(personEntry!);
+    return await _personRepository.getById(studentEntry.personId);
   }
 
   @override
   Future<void> update(RegisteredPerson student) async {
-    final entry = _personMapper.toEntry(student);
-    await _personDao.updatePerson(entry);
+    await _personRepository.update(student);
   }
 }

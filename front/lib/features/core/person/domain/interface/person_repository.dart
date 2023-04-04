@@ -7,6 +7,8 @@ abstract class PersonRepository {
 
   Future<RegisteredPerson?> getById(int id);
 
+  Future<Set<RegisteredPerson>> getByIds(List<int> ids);
+
   Future<RegisteredPerson> register(Person person);
 
   Future<void> delete(RegisteredPerson person);

@@ -1,6 +1,6 @@
 import 'package:correct_speech/features/core/person/domain/model/registered_person.dart';
 import 'package:correct_speech/features/core/person/presentation/widget/person_selection_bottomsheet.dart';
-import 'package:correct_speech/features/core/person/presentation/widget/person_tile/person_tile.dart';
+import 'package:correct_speech/features/person_tile/person_tile.dart';
 import 'package:correct_speech/infrastructure/bloc/bloc_narrowed_consumer.dart';
 import 'package:flutter/material.dart';
 import 'package:injector/injector.dart';
