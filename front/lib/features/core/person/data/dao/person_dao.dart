@@ -7,7 +7,7 @@ abstract class PersonDao {
   Future<List<PersonEntry>> getAllPersons();
 
   @Query('SELECT * FROM Persons WHERE id IN (:ids)')
-  Future<List<PersonEntry>> getPersonsByIds(Iterable<int> ids);
+  Future<List<PersonEntry>> getPersonsByIds(List<int> ids);
 
   @Query('SELECT * FROM Persons WHERE id = :id')
   Future<PersonEntry?> getPersonById(int id);

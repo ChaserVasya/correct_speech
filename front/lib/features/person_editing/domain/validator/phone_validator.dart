@@ -6,6 +6,7 @@ class PhoneValidator {
     if (input.isEmpty) return 'Заполните номер';
     if (input.runes.first != '8'.runes.single) return 'Номер должен начинаться с 8';
     if (input.length != _phoneLength) return 'Номер должен содержать $_phoneLength символов';
+    if (input.contains(RegExp(r'\D'))) return 'Номер должен содержать только цифры';
     return null;
   }
 }

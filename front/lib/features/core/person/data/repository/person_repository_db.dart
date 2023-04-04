@@ -18,13 +18,13 @@ class PersonRepositoryDb implements PersonRepository {
   );
 
   @override
-  Future<List<RegisteredPerson>> getAllPersons() async {
+  Future<Iterable<RegisteredPerson>> getAll() async {
     final personTable = await _personDao.getAllPersons();
-    return personTable.map(_personMapper.toDomain).toList();
+    return personTable.map(_personMapper.toDomain);
   }
 
   @override
-  Future<RegisteredPerson> registerPerson(Person person) async {
+  Future<RegisteredPerson> register(Person person) async {
     final entry = _personMapper.toEntry(person);
     final id = await _personDao.insertPerson(entry);
     final registeredPerson = person.addId(id);
@@ -33,8 +33,35 @@ class PersonRepositoryDb implements PersonRepository {
   }
 
   @override
-  Future<void> linkPersons(Registered person1, Registered person2) async {
+  Future<void> link(Registered person1, Registered person2) async {
     final junctionTable = _personMapper.toJunctionEntries(person1, person2);
     await _relatedPersonsDao.insertRelatedPersons(junctionTable);
+  }
+
+  @override
+  Future<Iterable<RegisteredPerson>> getRelatedToPerson(Registered person) async {
+    final relatedPersonsTable = await _relatedPersonsDao.getRelatedToPerson(person.id);
+    if (relatedPersonsTable.isEmpty) return [];
+    final relatedPersonIds = relatedPersonsTable.map((entry) => entry.id2);
+    final personTable = await _personDao.getPersonsByIds(relatedPersonIds);
+    return personTable.map(_personMapper.toDomain);
+  }
+
+  @override
+  Future<void> unlink(Registered person1, Registered person2) async {
+    final linkedPersonsTable = _personMapper.toJunctionEntries(person1, person2);
+    await _relatedPersonsDao.deleteRelatedPersons(linkedPersonsTable);
+  }
+
+  @override
+  Future<void> delete(RegisteredPerson person) async {
+    final personEntry = _personMapper.toEntry(person);
+    await _personDao.deletePerson(personEntry);
+  }
+
+  @override
+  Future<void> update(RegisteredPerson person) async {
+    final personEntry = _personMapper.toEntry(person);
+    await _personDao.updatePerson(personEntry);
   }
 }

@@ -1,5 +1,5 @@
-import 'package:correct_speech/features/student_editing/domain/formatter/phone_formatter.dart';
-import 'package:correct_speech/features/student_editing/domain/validator/phone_validator.dart';
+import 'package:correct_speech/features/person_editing/domain/formatter/phone_formatter.dart';
+import 'package:correct_speech/features/person_editing/domain/validator/phone_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:injector/injector.dart';
@@ -36,6 +36,7 @@ class PhoneFormField extends StatelessWidget {
           ),
         )
       ],
+      //TODO How to call after validation and formatting?
       onEditingComplete: () => onComplete(_controller.text),
     );
   }

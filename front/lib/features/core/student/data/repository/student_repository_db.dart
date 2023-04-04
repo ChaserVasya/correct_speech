@@ -20,11 +20,11 @@ class StudentRepositoryDB implements StudentRepository {
 
   //TODO Change to JOIN query
   @override
-  Future<List<RegisteredPerson>> getAll() async {
+  Future<Iterable<RegisteredPerson>> getAll() async {
     final studentsTable = await _studentDao.getAllStudents();
     final studentsIds = studentsTable.map((entry) => entry.personId);
     final personsTable = await _personDao.getPersonsByIds(studentsIds);
-    return personsTable.map(_personMapper.toDomain).toList();
+    return personsTable.map(_personMapper.toDomain);
   }
 
   @override

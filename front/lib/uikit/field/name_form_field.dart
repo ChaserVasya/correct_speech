@@ -1,5 +1,5 @@
-import 'package:correct_speech/features/student_editing/domain/formatter/name_formatter.dart';
-import 'package:correct_speech/features/student_editing/domain/validator/name_validator.dart';
+import 'package:correct_speech/features/person_editing/domain/formatter/name_formatter.dart';
+import 'package:correct_speech/features/person_editing/domain/validator/name_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:injector/injector.dart';
