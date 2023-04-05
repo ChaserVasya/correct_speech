@@ -11,11 +11,13 @@ import 'person_entry.dart';
       childColumns: ['id1'],
       parentColumns: ['id'],
       entity: PersonEntry,
+      onDelete: ForeignKeyAction.cascade,
     ),
     ForeignKey(
       childColumns: ['id2'],
       parentColumns: ['id'],
       entity: PersonEntry,
+      onDelete: ForeignKeyAction.cascade,
     )
   ],
 )

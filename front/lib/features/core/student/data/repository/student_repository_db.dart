@@ -18,7 +18,7 @@ class StudentRepositoryDB implements StudentRepository {
 
   //TODO Change to JOIN query
   @override
-  Future<Set<RegisteredPerson>> getAll() async {
+  Future<List<RegisteredPerson>> getAll() async {
     final studentsTable = await _studentDao.getAllStudents();
     final studentsIds = studentsTable.map((entry) => entry.personId).toList();
     return await _personRepository.getByIds(studentsIds);

@@ -2,12 +2,12 @@ import 'package:correct_speech/features/core/person/domain/model/registered_pers
 
 typedef BlocStateConstructor<T extends BlocState> = T Function({
   required RegisteredPerson currentPerson,
-  required Set<RegisteredPerson> relatedPersons,
+  required List<RegisteredPerson> relatedPersons,
 });
 
 abstract class BlocState {
   final RegisteredPerson currentPerson;
-  final Set<RegisteredPerson> relatedPersons;
+  final List<RegisteredPerson> relatedPersons;
 
   BlocState({
     required this.currentPerson,
@@ -17,7 +17,7 @@ abstract class BlocState {
   T copyWith<T extends BlocState>(
     BlocStateConstructor<T> constructor, {
     RegisteredPerson? currentPerson,
-    Set<RegisteredPerson>? relatedPersons,
+    List<RegisteredPerson>? relatedPersons,
   }) {
     return constructor(
       currentPerson: currentPerson ?? this.currentPerson,

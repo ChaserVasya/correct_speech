@@ -3,17 +3,17 @@ import 'package:correct_speech/features/core/person/domain/model/registered.dart
 import 'package:correct_speech/features/core/person/domain/model/registered_person.dart';
 
 abstract class PersonRepository {
-  Future<Set<RegisteredPerson>> getAll();
+  Future<List<RegisteredPerson>> getAll();
 
   Future<RegisteredPerson?> getById(int id);
 
-  Future<Set<RegisteredPerson>> getByIds(List<int> ids);
+  Future<List<RegisteredPerson>> getByIds(List<int> ids);
 
   Future<RegisteredPerson> register(Person person);
 
   Future<void> delete(RegisteredPerson person);
 
-  Future<Set<RegisteredPerson>> getRelatedToPerson(Registered person);
+  Future<List<RegisteredPerson>> getRelatedToPerson(Registered person);
 
   Future<void> link(Registered person1, Registered person2);
 

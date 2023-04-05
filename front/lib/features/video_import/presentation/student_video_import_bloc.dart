@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:correct_speech/features/core/person/domain/model/registered_person.dart';
+import 'package:correct_speech/features/core/student_video/domain/interface/student_video_repository.dart';
 import 'package:correct_speech/features/core/video/domain/interactor/video_ui_interactor.dart';
-import 'package:correct_speech/features/core/video/domain/interface/student_video_repository.dart';
 import 'package:correct_speech/features/core/video/presentation/model/video_ui.dart';
 import 'package:correct_speech/features/video_import/domain/interactor/source_video_interactor.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

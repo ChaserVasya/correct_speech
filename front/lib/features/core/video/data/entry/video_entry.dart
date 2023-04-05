@@ -4,23 +4,22 @@ import 'package:floor/floor.dart';
 @Entity(
   foreignKeys: [
     ForeignKey(
-      childColumns: ['studentId'],
+      childColumns: ['authorId'],
       parentColumns: ['id'],
       entity: PersonEntry,
       onDelete: ForeignKeyAction.cascade,
     ),
   ],
 )
-class StudentVideoEntry {
+class VideoEntry {
   @PrimaryKey(autoGenerate: true)
   final int? id;
-  final int studentId;
-
+  final int authorId;
   final String path;
 
-  const StudentVideoEntry({
+  const VideoEntry({
     this.id,
-    required this.studentId,
+    required this.authorId,
     required this.path,
   });
 }

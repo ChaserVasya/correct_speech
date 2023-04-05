@@ -1,9 +1,11 @@
+import 'package:correct_speech/features/video_comment/domain/model/video_comment.dart';
+
 abstract class VideoCommentRepository {
-  Future<List<String>> getComments(List<String> videoPaths);
+  Future<List<VideoComment>> getCommentsOfVideo(int videoId);
 
-  Future<void> addComment({String videoPath, String comment});
+  Future<void> addComment(VideoComment comment);
 
-  Future<void> updateComment({String videoPath, String comment});
+  Future<void> updateComment(VideoComment comment);
 
-  Future<void> deleteComment(String videoPath);
+  Future<void> deleteComment(int commentId);
 }
