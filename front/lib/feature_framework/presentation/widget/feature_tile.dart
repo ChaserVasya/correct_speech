@@ -12,17 +12,21 @@ class FeatureTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TextButton(
-      onPressed: () => _openFeature(context),
-      child: Column(
-        children: [
-          Image.asset(
-            feature.iconPath,
-            width: 100,
-            height: 100,
-          ),
-          Text(feature.name),
-        ],
+    return InkWell(
+      onTap: () => _openFeature(context),
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          children: [
+            Flexible(
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Image.asset(feature.iconPath),
+              ),
+            ),
+            Text(feature.name, style: Theme.of(context).textTheme.titleMedium),
+          ],
+        ),
       ),
     );
   }

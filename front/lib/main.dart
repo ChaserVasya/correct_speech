@@ -3,6 +3,7 @@ import 'package:correct_speech/inject.dart';
 import 'package:flutter/material.dart';
 
 void main() async {
-  injectApp();
+  WidgetsFlutterBinding.ensureInitialized();
+  await injectApp();
   runApp(const App());
 }

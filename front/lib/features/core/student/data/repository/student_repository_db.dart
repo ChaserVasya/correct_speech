@@ -43,9 +43,4 @@ class StudentRepositoryDB implements StudentRepository {
     if (studentEntry == null) return null;
     return await _personRepository.getById(studentEntry.personId);
   }
-
-  @override
-  Future<void> update(RegisteredPerson student) async {
-    await _personRepository.update(student);
-  }
 }

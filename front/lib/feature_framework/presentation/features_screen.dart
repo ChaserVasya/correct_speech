@@ -11,7 +11,9 @@ class FeaturesScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Hello')),
-      body: Wrap(
+      body: GridView.count(
+        crossAxisCount: 2,
+        childAspectRatio: 1,
         children: [
           for (final feature in features) FeatureTile(feature: feature),
         ],

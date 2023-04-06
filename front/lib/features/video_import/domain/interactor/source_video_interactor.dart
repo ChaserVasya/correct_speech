@@ -1,5 +1,3 @@
-import 'package:correct_speech/features/core/video/domain/interactor/video_ui_interactor.dart';
-import 'package:correct_speech/features/core/video/presentation/model/video_ui.dart';
 import 'package:file_picker/file_picker.dart';
 
 class SourceVideoInteractor {
