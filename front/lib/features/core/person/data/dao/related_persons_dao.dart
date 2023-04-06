@@ -4,17 +4,17 @@ import 'package:floor/floor.dart';
 @dao
 abstract class RelatedPersonsDao {
   @Query('SELECT * FROM RelatedPersons')
-  Future<Iterable<RelatedPersonsEntry>> getAllRelatedPersons();
+  Future<List<RelatedPersonsEntry>> getAllRelatedPersons();
 
   @Query('SELECT * FROM RelatedPersons WHERE id1 = :id')
-  Future<Iterable<RelatedPersonsEntry>> getRelatedToPerson(int id);
+  Future<List<RelatedPersonsEntry>> getRelatedToPerson(int id);
 
   @update
   Future<void> updateRelatedPersons(RelatedPersonsEntry persons);
 
   @insert
-  Future<void> insertRelatedPersons(Iterable<RelatedPersonsEntry> persons);
+  Future<void> insertRelatedPersons(List<RelatedPersonsEntry> persons);
 
   @delete
-  Future<void> deleteRelatedPersons(Iterable<RelatedPersonsEntry> persons);
+  Future<void> deleteRelatedPersons(List<RelatedPersonsEntry> persons);
 }
