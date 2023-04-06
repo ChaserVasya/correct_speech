@@ -1,5 +1,6 @@
 import 'package:correct_speech/features/core/person/domain/model/registered_person.dart';
 import 'package:correct_speech/features/core/person/presentation/widget/person_selection_bottomsheet.dart';
+import 'package:correct_speech/features/person_screen/person_editing/person_editing_screen.dart';
 import 'package:correct_speech/features/person_tile/person_tile.dart';
 import 'package:correct_speech/infrastructure/bloc/bloc_narrowed_consumer.dart';
 import 'package:flutter/material.dart';
@@ -62,6 +63,7 @@ class _RelatedPersonsListState extends State<RelatedPersonsList> {
             for (final relatedPerson in state.relatedPersons)
               PersonTile(
                 relatedPerson,
+                onTap: _openPersonEditingScreen,
                 additionalButtons: [
                   _buildRemoveRelatedPersonButton(relatedPerson),
                 ],
@@ -73,6 +75,14 @@ class _RelatedPersonsListState extends State<RelatedPersonsList> {
           child: const Text('Добавить контактное лицо'),
         ),
       ],
+    );
+  }
+
+  void _openPersonEditingScreen(RegisteredPerson person) {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (_) => PersonEditingScreen(person),
+      ),
     );
   }
 

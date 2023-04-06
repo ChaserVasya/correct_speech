@@ -3,10 +3,10 @@ import 'package:floor/floor.dart';
 
 @dao
 abstract class StudentDao {
-  @Query('SELECT * FROM StudentTable')
+  @Query('SELECT * FROM Students')
   Future<List<StudentEntry>> getAllStudents();
 
-  @Query('SELECT * FROM StudentTable WHERE id = :id')
+  @Query('SELECT * FROM Students WHERE id = :id')
   Future<StudentEntry?> getStudent(int id);
 
   @insert

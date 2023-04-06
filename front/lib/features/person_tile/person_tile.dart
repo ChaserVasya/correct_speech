@@ -1,6 +1,5 @@
 import 'package:correct_speech/features/core/person/domain/model/registered_person.dart';
 import 'package:correct_speech/features/person_tile/person_tile_cubit.dart';
-import 'package:correct_speech/features/person_screen/person_editing/person_editing_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injector/injector.dart';
@@ -9,11 +8,13 @@ import 'package:injector/injector.dart';
 class PersonTile extends StatefulWidget {
   final RegisteredPerson person;
   final List<Widget>? additionalButtons;
+  final void Function(RegisteredPerson) onTap;
 
   const PersonTile(
     this.person, {
     super.key,
     this.additionalButtons,
+    required this.onTap,
   });
 
   @override
@@ -49,7 +50,7 @@ class _PersonTileState extends State<PersonTile> {
           if (widget.additionalButtons != null) ...widget.additionalButtons!,
         ],
       ),
-      onTap: _openPersonEditingScreen,
+      onTap: () => widget.onTap(person),
     );
   }
 
@@ -85,14 +86,6 @@ class _PersonTileState extends State<PersonTile> {
             child: const Text('Удалить'),
           ),
         ],
-      ),
-    );
-  }
-
-  void _openPersonEditingScreen() {
-    Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (_) => PersonEditingScreen(widget.person),
       ),
     );
   }

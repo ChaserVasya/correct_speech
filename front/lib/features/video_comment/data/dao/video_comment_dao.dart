@@ -3,10 +3,10 @@ import 'package:floor/floor.dart';
 
 @dao
 abstract class VideoCommentDao {
-  @Query('SELECT * FROM videoComments WHERE authorId = :authorId')
+  @Query('SELECT * FROM VideoComments WHERE authorId = :authorId')
   Future<List<VideoCommentEntry>> getVideoCommentsByAuthorId(int authorId);
 
-  @Query('SELECT * FROM videoComments WHERE videoId = :videoId')
+  @Query('SELECT * FROM VideoComments WHERE videoId = :videoId')
   Future<List<VideoCommentEntry>> getVideoCommentsOfVideo(int videoId);
 
   @insert
@@ -15,6 +15,6 @@ abstract class VideoCommentDao {
   @update
   Future<void> updateVideoComment(VideoCommentEntry videoComment);
 
-  @Query('DELETE * WHERE id = :id')
+  @Query('DELETE * FROM VideoComments WHERE id = :id')
   Future<void> deleteVideoCommentById(int id);
 }

@@ -1,3 +1,5 @@
+import 'package:correct_speech/feature_framework/features.dart';
+import 'package:correct_speech/feature_framework/presentation/widget/feature_tile.dart';
 import 'package:flutter/material.dart';
 
 class FeaturesScreen extends StatelessWidget {

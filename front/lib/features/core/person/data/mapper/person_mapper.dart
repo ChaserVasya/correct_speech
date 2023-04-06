@@ -8,7 +8,7 @@ import 'package:correct_speech/features/core/person/domain/model/registered_pers
 class PersonMapper {
   final SexMapper _sexMapper;
 
-  PersonMapper(this._sexMapper);
+  const PersonMapper(this._sexMapper);
 
   RegisteredPerson toDomain(PersonEntry personEntry) {
     return RegisteredPerson(

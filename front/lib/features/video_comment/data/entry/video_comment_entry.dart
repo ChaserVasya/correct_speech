@@ -2,6 +2,7 @@ import 'package:correct_speech/features/core/video/data/entry/video_entry.dart';
 import 'package:floor/floor.dart';
 
 @Entity(
+  tableName: 'VideoComments',
   foreignKeys: [
     ForeignKey(
       childColumns: ['videoId'],

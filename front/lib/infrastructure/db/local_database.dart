@@ -10,7 +10,6 @@ import 'package:sqflite/sqflite.dart' as sqflite;
 
 part 'local_database.g.dart'; // the generated code will be there
 
-//TODO check table names are equal to queries
 @Database(version: 1, entities: [StudentEntry, PersonEntry, RelatedPersonsEntry])
 abstract class LocalDatabase extends FloorDatabase {
   StudentDao get studentDao;
