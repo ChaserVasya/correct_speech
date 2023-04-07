@@ -68,7 +68,7 @@ class _PersonEditingScreenState extends State<PersonEditingScreen> {
 
   Widget _buildStateMain(BlocStateMain state) {
     final person = state.person;
-    return ListView(
+    return Column(
       children: [
         PersonFormField(
           person: person,

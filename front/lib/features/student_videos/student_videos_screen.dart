@@ -6,6 +6,7 @@ import 'package:correct_speech/features/video_import/presentation/widget/video_t
 import 'package:correct_speech/uikit/base_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:injector/injector.dart';
 
 class StudentVideosScreen extends StatefulWidget {
   final RegisteredPerson student;
@@ -22,6 +23,7 @@ class _StudentVideosScreenState extends State<StudentVideosScreen> {
   @override
   void initState() {
     super.initState();
+    _cubit = Injector.appInstance.get();
     _cubit.init(widget.student);
   }
 

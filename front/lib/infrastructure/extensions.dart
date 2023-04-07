@@ -20,6 +20,10 @@ extension ListExtensions<E> on List<E> {
       }
     }
   }
+
+  Iterable<E> whereNot(bool Function(E) test){
+    return where((e) => !test(e));
+  }
 }
 
 extension MapExtension<A, B> on Map<A, B> {

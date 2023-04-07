@@ -18,7 +18,9 @@ class BaseScreen extends StatelessWidget {
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: child,
+        child: Center(
+          child: child,
+        ),
       ),
     );
   }

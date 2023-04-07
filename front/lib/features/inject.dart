@@ -37,21 +37,21 @@ final _register = Injector.appInstance.registerDependency;
 final _getImpl = Injector.appInstance.get;
 
 Future<void> injectFeatures() async {
-  injectDomain();
-  injectMappers();
-  injectRepositories();
-  injectInteractors();
-  injectBlocs();
+  _injectDomain();
+  _injectMappers();
+  _injectRepositories();
+  _injectInteractors();
+  _injectBlocs();
 }
 
-void injectDomain() {
+void _injectDomain() {
   _register(() => NameFormatter());
   _register(() => PhoneFormatter());
   _register(() => NameValidator());
   _register(() => PhoneValidator());
 }
 
-void injectRepositories() {
+void _injectRepositories() {
   _register<PersonRepository>(() => PersonRepositoryDb(_getImpl(), _getImpl(), _getImpl()));
   _register<StudentRepository>(() => StudentRepositoryDB(_getImpl(), _getImpl(), _getImpl()));
   _register<StudentVideoRepository>(() => StudentVideoRepositoryDb(_getImpl(), _getImpl()));
@@ -59,7 +59,7 @@ void injectRepositories() {
   _register<VideoCommentRepository>(() => VideoCommentRepositoryDB(_getImpl(), _getImpl()));
 }
 
-void injectMappers() {
+void _injectMappers() {
   _register(() => StudentMapper());
   _register(() => SexMapper());
   _register(() => SexUIMapper());
@@ -67,12 +67,12 @@ void injectMappers() {
   _register(() => PersonMapper(_getImpl()));
 }
 
-void injectInteractors() {
+void _injectInteractors() {
   _register(() => VideoUICreator());
   _register(() => SourceVideoInteractor(_getImpl()));
 }
 
-void injectBlocs() {
+void _injectBlocs() {
   _register(() => StudentsCubit(_getImpl()));
   _register(() => PersonEditingCubit(_getImpl()));
   _register(() => RelatedPersonsCubit(_getImpl()));

@@ -57,20 +57,16 @@ class _RelatedPersonsListState extends State<RelatedPersonsList> {
 
   Widget _buildMainState(BlocStateMain state) {
     return Column(
+      mainAxisSize: MainAxisSize.min,
       children: [
-        Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            for (final relatedPerson in state.relatedPersons)
-              PersonTile(
-                relatedPerson,
-                onTap: _openPersonEditingScreen,
-                additionalButtons: [
-                  _buildRemoveRelatedPersonButton(relatedPerson),
-                ],
-              )
-          ],
-        ),
+        for (final relatedPerson in state.relatedPersons)
+          PersonTile(
+            relatedPerson,
+            onTap: _openPersonEditingScreen,
+            additionalButtons: [
+              _buildRemoveRelatedPersonButton(relatedPerson),
+            ],
+          ),
         ElevatedButton(
           onPressed: _cubit.needAddRelatedPerson,
           child: const Text('Добавить контактное лицо'),
@@ -96,7 +92,7 @@ class _RelatedPersonsListState extends State<RelatedPersonsList> {
 
   void _listenState(BuildContext context, BlocStateListen state) async {
     if (state is BlocStateSelectPerson) {
-      final person = await showPersonSelectionBottomsheet(context);
+      final person = await showPersonSelectionBottomsheet(context, [state.currentPerson, ...state.relatedPersons]);
       if (person != null) await _cubit.addRelatedPerson(person);
     }
   }
