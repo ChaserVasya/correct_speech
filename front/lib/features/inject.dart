@@ -1,7 +1,12 @@
 import 'package:correct_speech/features/core/person/data/mapper/person_mapper.dart';
 import 'package:correct_speech/features/core/person/data/mapper/sex_mapper.dart';
 import 'package:correct_speech/features/core/person/data/repository/person_repository_db.dart';
+import 'package:correct_speech/features/core/person/domain/formatter/name_formatter.dart';
+import 'package:correct_speech/features/core/person/domain/formatter/phone_formatter.dart';
 import 'package:correct_speech/features/core/person/domain/interface/person_repository.dart';
+import 'package:correct_speech/features/core/person/domain/validator/name_validator.dart';
+import 'package:correct_speech/features/core/person/domain/validator/phone_validator.dart';
+import 'package:correct_speech/features/core/person/presentation/model/sex_ui_mapper.dart';
 import 'package:correct_speech/features/core/student/data/mapper/student_mapper.dart';
 import 'package:correct_speech/features/core/student/data/repository/student_repository_db.dart';
 import 'package:correct_speech/features/core/student/domain/interface/student_repository.dart';
@@ -32,10 +37,18 @@ final _register = Injector.appInstance.registerDependency;
 final _getImpl = Injector.appInstance.get;
 
 Future<void> injectFeatures() async {
+  injectDomain();
   injectMappers();
   injectRepositories();
   injectInteractors();
   injectBlocs();
+}
+
+void injectDomain() {
+  _register(() => NameFormatter());
+  _register(() => PhoneFormatter());
+  _register(() => NameValidator());
+  _register(() => PhoneValidator());
 }
 
 void injectRepositories() {
@@ -49,6 +62,7 @@ void injectRepositories() {
 void injectMappers() {
   _register(() => StudentMapper());
   _register(() => SexMapper());
+  _register(() => SexUIMapper());
   _register(() => VideoMapper());
   _register(() => PersonMapper(_getImpl()));
 }
@@ -69,5 +83,5 @@ void injectBlocs() {
   _register(() => CommentEditingCubit(_getImpl()));
   _register(() => CommentCubit(_getImpl()));
   _register(() => CommentsCubit(_getImpl()));
-  _register(() => StudentVideoImportBloc(_getImpl(), _getImpl(), _getImpl()));
+  _register(() => StudentVideoImportCubit(_getImpl(), _getImpl(), _getImpl()));
 }

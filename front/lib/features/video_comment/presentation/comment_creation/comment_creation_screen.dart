@@ -1,4 +1,5 @@
 import 'package:correct_speech/features/video_comment/domain/model/video_comment.dart';
+import 'package:correct_speech/uikit/base_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injector/injector.dart';
@@ -27,12 +28,15 @@ class _CommentCreationScreenState extends State<CommentCreationScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: _onWillPop,
-      child: BlocConsumer(
-        bloc: _cubit,
-        listener: _listenState,
-        builder: _buildState,
+    return BaseScreen(
+      title: 'Создать комментарий',
+      child: WillPopScope(
+        onWillPop: _onWillPop,
+        child: BlocConsumer(
+          bloc: _cubit,
+          listener: _listenState,
+          builder: _buildState,
+        ),
       ),
     );
   }

@@ -45,6 +45,7 @@ class _StudentsListState extends State<StudentsList> {
 
   Widget _buildStudentsList(List<RegisteredPerson> students) {
     return ListView.builder(
+      itemCount: students.length,
       itemBuilder: (_, i) => PersonTile(
         students[i],
         onTap: widget.onStudentTap,

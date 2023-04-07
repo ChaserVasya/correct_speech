@@ -1,6 +1,6 @@
 import 'package:correct_speech/features/core/person/domain/model/person.dart';
 import 'package:correct_speech/features/core/person/domain/model/sex.dart';
-import 'package:correct_speech/features/core/person/presentation/widget/sex_radio.dart';
+import 'package:correct_speech/features/core/person/presentation/widget/sex_radio_list.dart';
 import 'package:correct_speech/uikit/field/name_form_field.dart';
 import 'package:correct_speech/uikit/field/phone_form_field.dart';
 import 'package:flutter/material.dart';
@@ -28,25 +28,26 @@ class _PersonFormFieldState extends State<PersonFormField> {
   @override
   Widget build(BuildContext context) {
     return Column(
+      mainAxisSize: MainAxisSize.min,
       children: [
-        SexRadio(
+        SexRadioList(
           _sex,
-          onChanged: (sex) => _sex = sex,
+          onChanged: (sex) => setState(() => _sex = sex),
         ),
         NameFormField(
           name: _name,
           hintText: 'Имя',
-          onComplete: (name) => _name = name,
+          onChanged: (name) => setState(() => _name = name),
         ),
         NameFormField(
           name: _surname,
           hintText: 'Фамилия',
-          onComplete: (surname) => _surname = surname,
+          onChanged: (surname) => setState(() => _surname = surname),
         ),
         PhoneFormField(
           phone: _phone,
           hintText: 'Телефон',
-          onComplete: (phone) => _phone = phone,
+          onChanged: (phone) => setState(() => _phone = phone),
         ),
         _buildCompleteButton(),
       ],
@@ -54,17 +55,24 @@ class _PersonFormFieldState extends State<PersonFormField> {
   }
 
   Widget _buildCompleteButton() {
+    final buttonIsEnabled = [_sex, _name, _surname, _phone].every(_isValid);
     return ElevatedButton(
-      onPressed: () {
-        final person = Person(
-          name: _name!,
-          surname: _surname!,
-          phone: _phone,
-          sex: _sex!,
-        );
-        widget.onComplete(person);
-      },
+      onPressed: buttonIsEnabled
+          ? () {
+              final person = Person(
+                name: _name!,
+                surname: _surname!,
+                phone: _phone,
+                sex: _sex!,
+              );
+              widget.onComplete(person);
+            }
+          : null,
       child: const Text('Принять изменения'),
     );
+  }
+
+  bool _isValid(Object? value) {
+    return value != null;
   }
 }

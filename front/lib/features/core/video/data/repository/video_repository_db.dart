@@ -1,5 +1,6 @@
 import 'package:correct_speech/features/core/person/domain/model/registered.dart';
 import 'package:correct_speech/features/core/video/data/dao/video_dao.dart';
+import 'package:correct_speech/features/core/video/data/entry/video_entry.dart';
 import 'package:correct_speech/features/core/video/data/mapper/video_mapper.dart';
 import 'package:correct_speech/features/core/video/domain/interface/video_repository.dart';
 import 'package:correct_speech/features/core/video/domain/model/registered_video.dart';
@@ -24,6 +25,16 @@ class VideoRepositoryDb extends VideoRepository {
   @override
   Future<List<RegisteredVideo>> getVideosByAuthor(int authorId) async {
     final table = await _videoDao.getVideosByAuthor(authorId);
+    return _mapVideosTableToDomain(table);
+  }
+
+  @override
+  Stream<List<RegisteredVideo>> streamVideosByAuthor(int authorId) async* {
+    final videosStream = _videoDao.streamVideosByAuthor(authorId);
+    yield* videosStream.map(_mapVideosTableToDomain);
+  }
+
+  List<RegisteredVideo> _mapVideosTableToDomain(List<VideoEntry> table) {
     return table.map(_mapper.toDomain).toList();
   }
 
@@ -36,12 +47,13 @@ class VideoRepositoryDb extends VideoRepository {
 
   @override
   Future<void> deleteVideo(RegisteredVideo video) async {
-    await _videoDao.deleteVideoById(video.id);
+    final entry = _mapper.toEntry(video);
+    return _videoDao.deleteVideo(entry);
   }
 
   @override
   Future<void> updateVideo(RegisteredVideo video) async {
     final entry = _mapper.toEntry(video);
-    await _videoDao.updateVideo(entry);
+    return _videoDao.updateVideo(entry);
   }
 }

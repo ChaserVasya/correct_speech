@@ -2,6 +2,7 @@ import 'package:correct_speech/features/core/person/domain/interface/person_repo
 import 'package:correct_speech/features/core/person/domain/model/person.dart';
 import 'package:correct_speech/features/core/person/domain/model/registered_person.dart';
 import 'package:correct_speech/features/core/student/data/dao/student_dao.dart';
+import 'package:correct_speech/features/core/student/data/entry/student_entry.dart';
 import 'package:correct_speech/features/core/student/data/mapper/student_mapper.dart';
 import 'package:correct_speech/features/core/student/domain/interface/student_repository.dart';
 
@@ -20,8 +21,18 @@ class StudentRepositoryDB implements StudentRepository {
   @override
   Future<List<RegisteredPerson>> getAll() async {
     final studentsTable = await _studentDao.getAllStudents();
+    return _mapStudentsToPerson(studentsTable);
+  }
+
+  @override
+  Stream<List<RegisteredPerson>> streamAll() async* {
+    final studentsTableStream = _studentDao.streamAllStudents();
+    yield* studentsTableStream.asyncMap(_mapStudentsToPerson);
+  }
+
+  Future<List<RegisteredPerson>> _mapStudentsToPerson(List<StudentEntry> studentsTable) async {
     final studentsIds = studentsTable.map((entry) => entry.personId).toList();
-    return await _personRepository.getByIds(studentsIds);
+    return _personRepository.getByIds(studentsIds);
   }
 
   @override

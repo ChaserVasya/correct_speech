@@ -7,13 +7,13 @@ class SourceVideoInteractor {
     this._filePicker,
   );
 
-  Future<Iterable<String>> pickVideos() async {
+  Future<List<String>> pickVideos() async {
     final result = await _filePicker.pickFiles(
       allowMultiple: true,
       type: FileType.video,
       lockParentWindow: true,
     );
 
-    return result!.files.map((file) => file.path!);
+    return result?.files.map((file) => file.path!).toList() ?? [];
   }
 }

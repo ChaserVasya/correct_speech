@@ -45,6 +45,7 @@ class _PersonTileState extends State<PersonTile> {
       title: Text(person.fullName),
       subtitle: person.phone != null ? Text(person.phone!) : null,
       trailing: Row(
+        mainAxisSize: MainAxisSize.min,
         children: [
           _buildEditingButtons(),
           if (widget.additionalButtons != null) ...widget.additionalButtons!,

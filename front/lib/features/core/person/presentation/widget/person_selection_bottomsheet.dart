@@ -10,7 +10,7 @@ Future<RegisteredPerson?> showPersonSelectionBottomsheet(BuildContext context) a
   if (context.mounted) {
     return showSelectionBottomsheet(
       context: context,
-      items: persons.toList(),
+      items: persons,
       createTitle: (person) => person.fullName,
     );
   }

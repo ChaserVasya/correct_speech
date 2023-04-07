@@ -6,6 +6,9 @@ abstract class StudentDao {
   @Query('SELECT * FROM Students')
   Future<List<StudentEntry>> getAllStudents();
 
+  @Query('SELECT * FROM Students')
+  Stream<List<StudentEntry>> streamAllStudents();
+
   @Query('SELECT * FROM Students WHERE id = :id')
   Future<StudentEntry?> getStudent(int id);
 

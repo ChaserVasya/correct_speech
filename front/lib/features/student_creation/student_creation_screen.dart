@@ -1,4 +1,5 @@
 import 'package:correct_speech/features/core/person/presentation/widget/person_form_field.dart';
+import 'package:correct_speech/uikit/base_screen.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -25,10 +26,13 @@ class _StudentCreationScreenState extends State<StudentCreationScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener(
-      bloc: _cubit,
-      listener: _listenState,
-      child: _buildContent(),
+    return BaseScreen(
+      title: 'Создание студента',
+      child: BlocListener(
+        bloc: _cubit,
+        listener: _listenState,
+        child: _buildContent(),
+      ),
     );
   }
 

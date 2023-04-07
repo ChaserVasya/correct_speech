@@ -1,5 +1,4 @@
 import 'package:correct_speech/feature_framework/model/feature.dart';
-import 'package:correct_speech/feature_framework/presentation/widget/feature_base.dart';
 import 'package:flutter/material.dart';
 
 class FeatureTile extends StatelessWidget {
@@ -34,9 +33,7 @@ class FeatureTile extends StatelessWidget {
   Future _openFeature(BuildContext context) {
     return Navigator.of(context).push(
       MaterialPageRoute(
-        builder: (_) => FeatureBase(
-          routes: feature.routes,
-        ),
+        builder: feature.mainScreenBuilder,
       ),
     );
   }

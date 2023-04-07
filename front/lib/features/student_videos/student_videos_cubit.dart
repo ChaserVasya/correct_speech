@@ -15,12 +15,13 @@ class StudentVideosCubit extends Cubit<BlocState?> {
   ) : super(null);
 
   void init(RegisteredPerson student) async {
-    final videos = await _repository.getStudentVideos(student.id);
-    final videosUI = await _creator.create(videos.map((video) => video.path));
-    emit(BlocState(
-      videos: videos,
-      videosUI: videosUI,
-    ));
+    _repository.streamStudentVideos(student.id).asyncMap((videos) async {
+      final videosUI = await _creator.create(videos.map((video) => video.path));
+      emit(BlocState(
+        videos: videos,
+        videosUI: videosUI,
+      ));
+    });
   }
 }
 

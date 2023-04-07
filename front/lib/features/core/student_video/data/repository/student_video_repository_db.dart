@@ -22,7 +22,12 @@ class StudentVideoRepositoryDb implements StudentVideoRepository {
   }
 
   @override
-  Future<void> importVideos(List<Video> videos, RegisteredPerson student) async {
+  Stream<List<RegisteredVideo>> streamStudentVideos(int studentId) {
+    return _videoRepository.streamVideosByAuthor(studentId);
+  }
+
+  @override
+  Future<void> importVideos(Iterable<Video> videos, RegisteredPerson student) async {
     for (final video in videos) {
       final importedPath = await _albumImporter.import(File(video.path), _createStudentAlbumName(student));
       await _videoRepository.addVideo(video.copyWith(importedPath), student);

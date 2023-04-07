@@ -3,9 +3,10 @@ import 'package:correct_speech/features/core/student/presentation/widget/show_st
 import 'package:correct_speech/features/core/video/presentation/model/video_ui.dart';
 import 'package:correct_speech/features/video_import/presentation/student_video_import_bloc.dart';
 import 'package:correct_speech/features/video_import/presentation/widget/video_tile.dart';
+import 'package:correct_speech/uikit/base_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:injector/injector.dart' hide Builder;
+import 'package:injector/injector.dart';
 
 class StudentVideoImportScreen extends StatefulWidget {
   const StudentVideoImportScreen({super.key});
@@ -15,92 +16,98 @@ class StudentVideoImportScreen extends StatefulWidget {
 }
 
 class _StudentVideoImportScreenState extends State<StudentVideoImportScreen> {
-  late final StudentVideoImportBloc _bloc;
+  late final StudentVideoImportCubit _cubit;
 
   @override
   void initState() {
     super.initState();
-    _bloc = Injector.appInstance.get<StudentVideoImportBloc>();
+    _cubit = Injector.appInstance.get<StudentVideoImportCubit>();
   }
 
   @override
-  void dispose() async {
-    await _bloc.close();
+  void dispose() {
+    _cubit.close();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer(
-      bloc: _bloc,
-      builder: _buildState,
-      listener: (context, state) async {
-        if (state is StudentVideoImportStateStudentNotSelected) {
-          await _showDialogNotSelectedStudent(context);
-        }
-      },
-    );
-  }
-
-  Future<T?> _showDialogNotSelectedStudent<T>(BuildContext context) {
-    return showDialog<T>(
-      context: context,
-      builder: (_) => const SimpleDialog(
-        title: Text('Для перемещения видео необходимо выбрать ученика'),
+    return BaseScreen(
+      title: 'Импорт видео',
+      child: BlocBuilder(
+        bloc: _cubit,
+        builder: _buildState,
       ),
     );
   }
 
-  Widget _buildState(BuildContext context, StudentVideoImportState state) {
-    if (state is StudentVideoImportStateInit) {
-      return _buildInitState();
-    } else if (state is StudentVideoImportStateMain) {
-      return _buildMainState(state);
+  Widget _buildState(BuildContext context, BlocState state) {
+    if (state is BlocStateLoading) {
+      return _buildLoadingState();
     } else {
-      throw Exception();
-      //TODO do exception system
+      return _buildMainState(state);
     }
   }
 
-  Widget _buildInitState() {
-    return const CircularProgressIndicator();
+  Widget _buildLoadingState() {
+    return const Center(
+      child: CircularProgressIndicator(),
+    );
   }
 
-  Widget _buildMainState(StudentVideoImportStateMain state) {
+  Widget _buildMainState(BlocState state) {
     return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
       children: [
         _buildSelectVideoButton(),
         _buildSelectedVideo(state.videos),
         _buildStudentOnVideoCard(state.studentOnVideo),
+        if (state.studentOnVideo != null) _buildImportVideoButton(),
       ],
     );
   }
 
   Widget _buildSelectedVideo(List<VideoUI> videos) {
-    return ListView.builder(
-      itemCount: videos.length,
-      itemBuilder: (_, i) => VideoTile(
-        video: videos[i],
+    if (videos.isEmpty) {
+      return const Text('Нет выбранных видео');
+    }
+    return Flexible(
+      child: ListView.separated(
+        separatorBuilder: (_, __) => const Divider(),
+        itemCount: videos.length,
+        itemBuilder: (_, i) => VideoTile(
+          video: videos[i],
+        ),
       ),
     );
   }
 
   Widget _buildSelectVideoButton() {
     return OutlinedButton(
-      onPressed: () => _bloc.add(StudentVideoImportEventPickVideos()),
+      onPressed: _cubit.pickVideos,
       child: const Text('Выбрать видео'),
     );
   }
 
+  Widget _buildImportVideoButton() {
+    return OutlinedButton(
+      onPressed: _cubit.moveVideos,
+      child: const Text('Импортировать видео'),
+    );
+  }
+
   Widget _buildStudentOnVideoCard(RegisteredPerson? studentOnVideo) {
-    return TextButton(
-      onPressed: () async {
-        final selectedStudent = await showStudentSelectionBottomsheet(context);
-        _bloc.add(StudentVideoImportEventStudentSelected(selectedStudent));
-      },
+    return OutlinedButton(
+      onPressed: _selectStudentOnVideoCard,
       child: Text((studentOnVideo == null)
           ? 'Выберите ученика, в чью папку будут перенесены видео'
           : 'Текущий студент: ${studentOnVideo.fullName}'),
     );
+  }
+
+  void _selectStudentOnVideoCard() async {
+    final selectedStudent = await showStudentSelectionBottomsheet(context);
+    if (selectedStudent == null) return;
+    _cubit.studentSelected(selectedStudent);
   }
 }

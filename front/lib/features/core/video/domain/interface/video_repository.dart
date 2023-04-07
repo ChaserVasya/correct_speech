@@ -6,6 +6,7 @@ abstract class VideoRepository {
   Future<RegisteredVideo?> getVideo(int id);
 
   Future<List<RegisteredVideo>> getVideosByAuthor(int authorId);
+  Stream<List<RegisteredVideo>> streamVideosByAuthor(int authorId);
 
   Future<RegisteredVideo> addVideo(Video video, Registered author);
 

@@ -10,9 +10,7 @@ class CommentsCubit extends Cubit<List<VideoComment>?> {
     this._repository,
   ) : super(null);
 
-  //TODO add stream builder for db
   Future<void> init(RegisteredVideo video) async {
-    final comments = await _repository.getCommentsOfVideo(video.id);
-    emit(comments);
+    _repository.streamCommentsOfVideo(video.id).map(emit);
   }
 }

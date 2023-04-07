@@ -33,7 +33,7 @@ class _CommentCardState extends State<CommentCard> {
       onTap: _pushCommentEditingScreen,
       trailing: IconButton(
         icon: const Icon(Icons.delete, color: Colors.red),
-        onPressed: () => _cubit.deleteComment(widget.comment.id!),
+        onPressed: () => _cubit.deleteComment(widget.comment),
       ),
     );
   }

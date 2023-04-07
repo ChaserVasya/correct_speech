@@ -6,8 +6,14 @@ abstract class PersonDao {
   @Query('SELECT * FROM Persons')
   Future<List<PersonEntry>> getAllPersons();
 
+  @Query('SELECT * FROM Persons')
+  Stream<List<PersonEntry>> streamAllPersons();
+
   @Query('SELECT * FROM Persons WHERE id IN (:ids)')
   Future<List<PersonEntry>> getPersonsByIds(List<int> ids);
+
+  @Query('SELECT * FROM Persons WHERE id IN (:ids)')
+  Stream<List<PersonEntry>> streamPersonsByIds(List<int> ids);
 
   @Query('SELECT * FROM Persons WHERE id = :id')
   Future<PersonEntry?> getPersonById(int id);

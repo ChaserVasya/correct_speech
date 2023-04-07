@@ -1,7 +1,7 @@
 import 'package:correct_speech/features/core/person/domain/model/sex.dart';
 import 'package:correct_speech/infrastructure/extensions.dart';
 
-abstract class SexUIMapper {
+class SexUIMapper {
   static final _toText = Map.fromEntries(Sex.values.map((sex) {
     switch (sex) {
       case Sex.male:

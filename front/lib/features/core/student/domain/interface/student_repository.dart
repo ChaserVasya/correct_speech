@@ -4,6 +4,8 @@ import 'package:correct_speech/features/core/person/domain/model/registered_pers
 abstract class StudentRepository {
   Future<List<RegisteredPerson>> getAll();
 
+  Stream<List<RegisteredPerson>> streamAll();
+
   Future<RegisteredPerson?> getById(int id);
 
   Future<RegisteredPerson> add(Person student);

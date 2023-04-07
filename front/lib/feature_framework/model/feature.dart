@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 class Feature {
   final String name;
   final String iconPath;
-  final Map<String, WidgetBuilder> routes;
+  final WidgetBuilder mainScreenBuilder;
 
   const Feature({
     required this.name,
     required this.iconPath,
-    required this.routes,
+    required this.mainScreenBuilder,
   });
 }

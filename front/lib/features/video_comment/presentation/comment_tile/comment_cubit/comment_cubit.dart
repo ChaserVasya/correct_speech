@@ -1,4 +1,5 @@
 import 'package:correct_speech/features/video_comment/domain/interface/video_comment_repository.dart';
+import 'package:correct_speech/features/video_comment/domain/model/video_comment.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'comment_state.dart';
@@ -18,7 +19,7 @@ class CommentCubit extends Cubit<BlocState?> {
     ));
   }
 
-  void deleteComment(int commentId) async {
-    await _commentRepository.deleteComment(commentId);
+  void deleteComment(VideoComment comment) async {
+    await _commentRepository.deleteComment(comment);
   }
 }

@@ -4,6 +4,7 @@ import 'package:correct_speech/features/core/video/domain/model/video.dart';
 
 abstract class StudentVideoRepository {
   Future<List<RegisteredVideo>> getStudentVideos(int studentId);
+  Stream<List<RegisteredVideo>> streamStudentVideos(int studentId);
 
-  Future<void> importVideos(List<Video> video, RegisteredPerson student);
+  Future<void> importVideos(Iterable<Video> video, RegisteredPerson student);
 }

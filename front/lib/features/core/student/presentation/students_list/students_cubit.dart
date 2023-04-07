@@ -10,7 +10,6 @@ class StudentsCubit extends Cubit<List<RegisteredPerson>?> {
   ) : super(null);
 
   Future<void> init() async {
-    final students = await _studentRepository.getAll();
-    emit(students.toList());
+    _studentRepository.streamAll().forEach(emit);
   }
 }

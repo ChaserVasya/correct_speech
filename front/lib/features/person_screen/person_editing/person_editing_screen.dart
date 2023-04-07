@@ -2,6 +2,7 @@ import 'package:correct_speech/features/core/person/domain/model/registered_pers
 import 'package:correct_speech/features/core/person/presentation/widget/person_form_field.dart';
 import 'package:correct_speech/features/person_screen/related_persons/related_persons_list.dart';
 import 'package:correct_speech/infrastructure/bloc/bloc_narrowed_consumer.dart';
+import 'package:correct_speech/uikit/base_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:injector/injector.dart';
 
@@ -29,10 +30,13 @@ class _PersonEditingScreenState extends State<PersonEditingScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocNarrowedConsumer(
-      bloc: _cubit,
-      builder: _buildState,
-      listener: _listenState,
+    return BaseScreen(
+      title: 'Редактирование',
+      child: BlocNarrowedConsumer(
+        bloc: _cubit,
+        builder: _buildState,
+        listener: _listenState,
+      ),
     );
   }
 

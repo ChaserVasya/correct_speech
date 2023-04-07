@@ -8,22 +8,16 @@ final features = [
   Feature(
     name: 'Импорт видео',
     iconPath: FeatureIcons.studentVideoImport,
-    routes: {
-      '/': (_) => const StudentVideoImportScreen(),
-    },
+    mainScreenBuilder: (_) => const StudentVideoImportScreen(),
   ),
   Feature(
     name: 'Комментарии к видео',
     iconPath: FeatureIcons.videoComment,
-    routes: {
-      '/': (_) => const StudentOnVideoSelectionScreen(),
-    },
+    mainScreenBuilder: (_) => const StudentOnVideoSelectionScreen(),
   ),
   Feature(
     name: 'Студенты',
     iconPath: FeatureIcons.studentEditing,
-    routes: {
-      '/': (_) => const StudentsInfoScreen(),
-    },
+    mainScreenBuilder: (_) => const StudentsInfoScreen(),
   ),
 ];

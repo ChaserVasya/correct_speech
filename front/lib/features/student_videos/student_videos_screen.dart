@@ -3,6 +3,7 @@ import 'package:correct_speech/features/core/video/domain/model/registered_video
 import 'package:correct_speech/features/student_videos/student_videos_cubit.dart';
 import 'package:correct_speech/features/video_comment/presentation/comments_list/comments_list.dart';
 import 'package:correct_speech/features/video_import/presentation/widget/video_tile.dart';
+import 'package:correct_speech/uikit/base_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -26,9 +27,12 @@ class _StudentVideosScreenState extends State<StudentVideosScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder(
-      bloc: _cubit,
-      builder: _buildState,
+    return BaseScreen(
+      title: 'Видео студента',
+      child: BlocBuilder(
+        bloc: _cubit,
+        builder: _buildState,
+      ),
     );
   }
 
