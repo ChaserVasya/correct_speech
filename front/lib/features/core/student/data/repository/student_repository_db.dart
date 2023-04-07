@@ -1,17 +1,19 @@
+import 'dart:async';
+
 import 'package:correct_speech/features/core/person/domain/interface/person_repository.dart';
 import 'package:correct_speech/features/core/person/domain/model/person.dart';
 import 'package:correct_speech/features/core/person/domain/model/registered_person.dart';
 import 'package:correct_speech/features/core/student/data/dao/student_dao.dart';
-import 'package:correct_speech/features/core/student/data/entry/student_entry.dart';
 import 'package:correct_speech/features/core/student/data/mapper/student_mapper.dart';
 import 'package:correct_speech/features/core/student/domain/interface/student_repository.dart';
+import 'package:correct_speech/infrastructure/helper/periodic_stream.dart';
 
 class StudentRepositoryDB implements StudentRepository {
   final StudentDao _studentDao;
   final StudentMapper _studentMapper;
   final PersonRepository _personRepository;
 
-  const StudentRepositoryDB(
+  StudentRepositoryDB(
     this._studentDao,
     this._studentMapper,
     this._personRepository,
@@ -21,18 +23,13 @@ class StudentRepositoryDB implements StudentRepository {
   @override
   Future<List<RegisteredPerson>> getAll() async {
     final studentsTable = await _studentDao.getAllStudents();
-    return _mapStudentsToPerson(studentsTable);
+    final studentsIds = studentsTable.map((entry) => entry.personId).toList();
+    return _personRepository.getByIds(studentsIds);
   }
 
   @override
-  Stream<List<RegisteredPerson>> streamAll() async* {
-    final studentsTableStream = _studentDao.streamAllStudents();
-    yield* studentsTableStream.asyncMap(_mapStudentsToPerson);
-  }
-
-  Future<List<RegisteredPerson>> _mapStudentsToPerson(List<StudentEntry> studentsTable) async {
-    final studentsIds = studentsTable.map((entry) => entry.personId).toList();
-    return _personRepository.getByIds(studentsIds);
+  Stream<List<RegisteredPerson>> streamAll() {
+    return periodicStream(getAll);
   }
 
   @override
@@ -45,7 +42,7 @@ class StudentRepositoryDB implements StudentRepository {
 
   @override
   Future<void> delete(RegisteredPerson student) async {
-    _personRepository.delete(student);
+    return _personRepository.delete(student);
   }
 
   @override

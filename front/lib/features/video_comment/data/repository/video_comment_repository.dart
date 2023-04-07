@@ -1,8 +1,11 @@
+import 'dart:async';
+
 import 'package:correct_speech/features/video_comment/data/dao/video_comment_dao.dart';
 import 'package:correct_speech/features/video_comment/data/entry/video_comment_entry.dart';
 import 'package:correct_speech/features/video_comment/data/mapper/video_comment_mapper.dart';
 import 'package:correct_speech/features/video_comment/domain/interface/video_comment_repository.dart';
 import 'package:correct_speech/features/video_comment/domain/model/video_comment.dart';
+import 'package:correct_speech/infrastructure/helper/periodic_stream.dart';
 
 class VideoCommentRepositoryDB implements VideoCommentRepository {
   final VideoCommentDao _videoCommentDao;
@@ -16,17 +19,12 @@ class VideoCommentRepositoryDB implements VideoCommentRepository {
   @override
   Future<List<VideoComment>> getCommentsOfVideo(int videoId) async {
     final table = await _videoCommentDao.getVideoComments(videoId);
-    return _mapCommentsTableToDomain(table);
+    return table.map(_mapper.toDomain).toList();
   }
 
   @override
-  Stream<List<VideoComment>> streamCommentsOfVideo(int videoId) async* {
-    final commentsTableStream = _videoCommentDao.streamVideoComments(videoId);
-    yield* commentsTableStream.map(_mapCommentsTableToDomain);
-  }
-
-  List<VideoComment> _mapCommentsTableToDomain(List<VideoCommentEntry> table) {
-    return table.map(_mapper.toDomain).toList();
+  Stream<List<VideoComment>> streamCommentsOfVideo(int videoId) {
+    return periodicStream(() => getCommentsOfVideo(videoId));
   }
 
   @override

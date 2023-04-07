@@ -11,11 +11,13 @@ class PersonCubit extends Cubit<BlocState> {
     emit(BlocState.confirmPersonDeleting);
   }
 
-  Future<void> deletePerson(bool? shouldDeletePerson, RegisteredPerson person) async {
-    if (shouldDeletePerson == null) return;
-    if (!shouldDeletePerson) return;
-    await _personRepository.delete(person);
+  void personDeletionNotConfirmed() {
+    emit(BlocState.main);
+  }
 
+  Future<void> deletePerson(RegisteredPerson person) async {
+    emit(BlocState.loading);
+    await _personRepository.delete(person);
     emit(BlocState.main);
   }
 }
@@ -23,4 +25,5 @@ class PersonCubit extends Cubit<BlocState> {
 enum BlocState {
   main,
   confirmPersonDeleting,
+  loading,
 }

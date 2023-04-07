@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -41,7 +43,9 @@ class _SmartFormFieldState extends State<SmartFormField> {
             final formattedText = widget.formatter(value.text);
             return TextEditingValue(
               text: formattedText,
-              selection: TextSelection.collapsed(offset: formattedText.length),
+              selection: TextSelection.collapsed(
+                offset: min(value.selection.end, formattedText.length),
+              ),
             );
           },
         )

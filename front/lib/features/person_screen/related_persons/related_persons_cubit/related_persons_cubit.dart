@@ -13,8 +13,10 @@ class RelatedPersonsCubit extends Cubit<BlocState?> {
     this._personRepository,
   ) : super(null);
 
+  StreamSubscription? _subscription;
+
   Future<void> init(RegisteredPerson person) async {
-    _personRepository.streamRelatedToPerson(person).forEach((relatedPersons) {
+    _subscription = _personRepository.streamRelatedToPerson(person).listen((relatedPersons) {
       if (state == null) {
         emit(BlocStateMain(
           currentPerson: person,
@@ -40,5 +42,11 @@ class RelatedPersonsCubit extends Cubit<BlocState?> {
 
   Future<void> addRelatedPerson(RegisteredPerson relatedPerson) async {
     await _personRepository.link(relatedPerson, state!.currentPerson);
+  }
+
+  @override
+  Future<void> close() {
+    _subscription?.cancel();
+    return super.close();
   }
 }

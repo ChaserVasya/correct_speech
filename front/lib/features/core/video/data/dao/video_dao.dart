@@ -6,9 +6,6 @@ abstract class VideoDao {
   @Query('SELECT * FROM Videos WHERE authorId = :authorId')
   Future<List<VideoEntry>> getVideosByAuthor(int authorId);
 
-  @Query('SELECT * FROM Videos WHERE authorId = :authorId')
-  Stream<List<VideoEntry>> streamVideosByAuthor(int authorId);
-
   @Query('SELECT * FROM Videos WHERE id = :id')
   Future<VideoEntry?> getVideoById(int id);
 

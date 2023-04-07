@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:correct_speech/features/core/person/domain/model/registered.dart';
 import 'package:correct_speech/features/core/video/data/dao/video_dao.dart';
 import 'package:correct_speech/features/core/video/data/entry/video_entry.dart';
@@ -5,6 +7,7 @@ import 'package:correct_speech/features/core/video/data/mapper/video_mapper.dart
 import 'package:correct_speech/features/core/video/domain/interface/video_repository.dart';
 import 'package:correct_speech/features/core/video/domain/model/registered_video.dart';
 import 'package:correct_speech/features/core/video/domain/model/video.dart';
+import 'package:correct_speech/infrastructure/helper/periodic_stream.dart';
 
 class VideoRepositoryDb extends VideoRepository {
   final VideoDao _videoDao;
@@ -29,9 +32,8 @@ class VideoRepositoryDb extends VideoRepository {
   }
 
   @override
-  Stream<List<RegisteredVideo>> streamVideosByAuthor(int authorId) async* {
-    final videosStream = _videoDao.streamVideosByAuthor(authorId);
-    yield* videosStream.map(_mapVideosTableToDomain);
+  Stream<List<RegisteredVideo>> streamVideosByAuthor(int authorId) {
+    return periodicStream(() => getVideosByAuthor(authorId));
   }
 
   List<RegisteredVideo> _mapVideosTableToDomain(List<VideoEntry> table) {

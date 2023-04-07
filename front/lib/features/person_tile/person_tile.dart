@@ -66,8 +66,15 @@ class _PersonTileState extends State<PersonTile> {
     switch (state) {
       case BlocState.confirmPersonDeleting:
         final shouldDeletePerson = await _showPersonDeletingConfirmationDialog();
-        await _cubit.deletePerson(shouldDeletePerson, widget.person);
+        if (shouldDeletePerson != true) {
+          _cubit.personDeletionNotConfirmed();
+        } else {
+          _cubit.deletePerson(widget.person);
+        }
         break;
+      case BlocState.loading:
+        break;
+
       case BlocState.main:
     }
   }

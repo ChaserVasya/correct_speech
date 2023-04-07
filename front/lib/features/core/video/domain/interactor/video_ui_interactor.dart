@@ -4,7 +4,6 @@ import 'package:correct_speech/features/core/video/presentation/model/video_ui.d
 import 'package:video_thumbnail/video_thumbnail.dart';
 
 class VideoUICreator {
-  //TODO create stream
   Future<List<VideoUI>> create(Iterable<String> videoPaths) async {
     final videos = <VideoUI>[];
     for (final path in videoPaths) {

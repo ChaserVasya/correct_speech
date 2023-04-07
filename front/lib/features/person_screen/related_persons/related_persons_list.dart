@@ -56,9 +56,10 @@ class _RelatedPersonsListState extends State<RelatedPersonsList> {
   }
 
   Widget _buildMainState(BlocStateMain state) {
-    return ListView(
+    return Column(
       children: [
         Column(
+          mainAxisSize: MainAxisSize.min,
           children: [
             for (final relatedPerson in state.relatedPersons)
               PersonTile(

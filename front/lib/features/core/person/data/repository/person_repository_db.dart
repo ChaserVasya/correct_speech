@@ -1,12 +1,13 @@
+import 'dart:async';
+
 import 'package:correct_speech/features/core/person/data/dao/person_dao.dart';
 import 'package:correct_speech/features/core/person/data/dao/related_persons_dao.dart';
-import 'package:correct_speech/features/core/person/data/entry/person_entry.dart';
-import 'package:correct_speech/features/core/person/data/entry/related_persons_entry.dart';
 import 'package:correct_speech/features/core/person/data/mapper/person_mapper.dart';
 import 'package:correct_speech/features/core/person/domain/interface/person_repository.dart';
 import 'package:correct_speech/features/core/person/domain/model/person.dart';
 import 'package:correct_speech/features/core/person/domain/model/registered.dart';
 import 'package:correct_speech/features/core/person/domain/model/registered_person.dart';
+import 'package:correct_speech/infrastructure/helper/periodic_stream.dart';
 
 class PersonRepositoryDb implements PersonRepository {
   final PersonDao _personDao;
@@ -22,37 +23,37 @@ class PersonRepositoryDb implements PersonRepository {
   @override
   Future<List<RegisteredPerson>> getAll() async {
     final table = await _personDao.getAllPersons();
-    return _mapPersonsTableToDomain(table);
+    return table.map(_mapper.toDomain).toList();
   }
 
   @override
-  Stream<List<RegisteredPerson>> streamAll() async* {
-    final personsStream = _personDao.streamAllPersons();
-    yield* personsStream.map(_mapPersonsTableToDomain);
+  Stream<List<RegisteredPerson>> streamAll() {
+    return periodicStream(getAll);
   }
 
   @override
   Future<List<RegisteredPerson>> getRelatedToPerson(Registered person) async {
     final relatedPersonsTable = await _relatedPersonsDao.getRelatedToPerson(person.id);
-    return _mapRelatedPersonsTableToDomain(relatedPersonsTable);
+    if (relatedPersonsTable.isEmpty) return [];
+    final relatedPersonIds = relatedPersonsTable.map((entry) => entry.id2).toList();
+    final personsTable = await _personDao.getPersonsByIds(relatedPersonIds);
+    return personsTable.map(_mapper.toDomain).toList();
   }
 
   @override
-  Stream<List<RegisteredPerson>> streamRelatedToPerson(Registered person) async* {
-    final relatedPersonsStream = _relatedPersonsDao.streamRelatedToPerson(person.id);
-    yield* relatedPersonsStream.asyncMap(_mapRelatedPersonsTableToDomain);
+  Stream<List<RegisteredPerson>> streamRelatedToPerson(Registered person) {
+    return periodicStream(() => getRelatedToPerson(person));
   }
 
   @override
   Future<List<RegisteredPerson>> getByIds(List<int> ids) async {
     final table = await _personDao.getPersonsByIds(ids);
-    return _mapPersonsTableToDomain(table);
+    return table.map(_mapper.toDomain).toList();
   }
 
   @override
-  Stream<List<RegisteredPerson>> streamByIds(List<int> ids) async* {
-    final personsTableStream = _personDao.streamPersonsByIds(ids);
-    yield* personsTableStream.map(_mapPersonsTableToDomain);
+  Stream<List<RegisteredPerson>> streamByIds(List<int> ids) {
+    return periodicStream(() => getByIds(ids));
   }
 
   @override
@@ -60,17 +61,6 @@ class PersonRepositoryDb implements PersonRepository {
     final entry = await _personDao.getPersonById(id);
     if (entry == null) return null;
     return _mapper.toDomain(entry);
-  }
-
-  List<RegisteredPerson> _mapPersonsTableToDomain(List<PersonEntry> table) {
-    return table.map(_mapper.toDomain).toList();
-  }
-
-  Future<List<RegisteredPerson>> _mapRelatedPersonsTableToDomain(List<RelatedPersonsEntry> relatedPersonsTable) async {
-    if (relatedPersonsTable.isEmpty) return [];
-    final relatedPersonIds = relatedPersonsTable.map((entry) => entry.id2).toList();
-    final personsTable = await _personDao.getPersonsByIds(relatedPersonIds);
-    return _mapPersonsTableToDomain(personsTable);
   }
 
   @override

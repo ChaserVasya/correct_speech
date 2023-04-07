@@ -6,14 +6,8 @@ abstract class RelatedPersonsDao {
   @Query('SELECT * FROM RelatedPersons')
   Future<List<RelatedPersonsEntry>> getAllRelatedPersons();
 
-  @Query('SELECT * FROM RelatedPersons')
-  Stream<List<RelatedPersonsEntry>> streamAllRelatedPersons();
-
   @Query('SELECT * FROM RelatedPersons WHERE id1 = :id')
   Future<List<RelatedPersonsEntry>> getRelatedToPerson(int id);
-
-  @Query('SELECT * FROM RelatedPersons WHERE id1 = :id')
-  Stream<List<RelatedPersonsEntry>> streamRelatedToPerson(int id);
 
   @update
   Future<void> updateRelatedPersons(RelatedPersonsEntry persons);

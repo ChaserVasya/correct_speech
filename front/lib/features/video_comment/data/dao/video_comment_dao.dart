@@ -6,9 +6,6 @@ abstract class VideoCommentDao {
   @Query('SELECT * FROM VideoComments WHERE videoId = :videoId')
   Future<List<VideoCommentEntry>> getVideoComments(int videoId);
 
-  @Query('SELECT * FROM VideoComments WHERE videoId = :videoId')
-  Stream<List<VideoCommentEntry>> streamVideoComments(int videoId);
-
   @insert
   Future<void> insertVideoComment(VideoCommentEntry videoComment);
 
