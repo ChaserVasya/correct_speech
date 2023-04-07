@@ -12,11 +12,12 @@ class CommentCubit extends Cubit<BlocState?> {
   ) : super(null);
 
   void init(int videoId) async {
-    final comments = await _commentRepository.getCommentsOfVideo(videoId);
-    emit(BlocStateMain(
-      comments: comments,
-      editingEnabled: false,
-    ));
+    _commentRepository.streamCommentsOfVideo(videoId).map((comments) {
+      emit(BlocStateMain(
+        comments: comments,
+        editingEnabled: false,
+      ));
+    });
   }
 
   void deleteComment(VideoComment comment) async {

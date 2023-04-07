@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injector/injector.dart';
 
-//TODO should i stream database updating student or i can just update screen on didUpdate and etc.?
 class StudentsList extends StatefulWidget {
   final void Function(RegisteredPerson) onStudentTap;
 

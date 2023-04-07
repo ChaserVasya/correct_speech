@@ -10,6 +10,7 @@ import 'package:correct_speech/features/core/video/data/entry/video_entry.dart';
 import 'package:correct_speech/features/video_comment/data/dao/video_comment_dao.dart';
 import 'package:correct_speech/features/video_comment/data/entry/video_comment_entry.dart';
 import 'package:floor/floor.dart';
+// ignore: depend_on_referenced_packages
 import 'package:sqflite/sqflite.dart' as sqflite;
 
 part 'local_database.g.dart'; // the generated code will be there
