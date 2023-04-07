@@ -17,10 +17,10 @@ import 'package:correct_speech/features/core/video/data/mapper/video_mapper.dart
 import 'package:correct_speech/features/core/video/data/repository/video_repository_db.dart';
 import 'package:correct_speech/features/core/video/domain/interactor/video_ui_interactor.dart';
 import 'package:correct_speech/features/core/video/domain/interface/video_repository.dart';
-import 'package:correct_speech/features/person_screen/person_editing/person_editing_cubit.dart/person_editing_cubit.dart';
+import 'package:correct_speech/features/person_screen/person_editing/person_editing_cubit/person_editing_cubit.dart';
 import 'package:correct_speech/features/person_screen/related_persons/related_persons_cubit/related_persons_cubit.dart';
 import 'package:correct_speech/features/person_tile/person_tile_cubit.dart';
-import 'package:correct_speech/features/student_creation/student_creation_cubit.dart/student_creation_cubit.dart';
+import 'package:correct_speech/features/student_creation/student_creation_cubit/student_creation_cubit.dart';
 import 'package:correct_speech/features/student_videos/student_videos_cubit.dart';
 import 'package:correct_speech/features/video_comment/data/repository/video_comment_repository.dart';
 import 'package:correct_speech/features/video_comment/domain/interface/video_comment_repository.dart';

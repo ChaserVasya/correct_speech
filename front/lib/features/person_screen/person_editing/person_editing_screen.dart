@@ -6,8 +6,8 @@ import 'package:correct_speech/uikit/base_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:injector/injector.dart';
 
-import 'person_editing_cubit.dart/person_editing_cubit.dart';
-import 'person_editing_cubit.dart/person_editing_state.dart';
+import 'person_editing_cubit/person_editing_cubit.dart';
+import 'person_editing_cubit/person_editing_state.dart';
 
 class PersonEditingScreen extends StatefulWidget {
   final RegisteredPerson person;
